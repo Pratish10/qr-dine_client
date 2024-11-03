@@ -16,7 +16,7 @@ const NotFound = (): JSX.Element => {
 			>
 				<h1 className='text-4xl font-bold text-green-600'>Oops! Page Not Found</h1>
 				<p className='mt-4 text-lg text-gray-700'>It seems we can&apos;t find the page you&apos;re looking for.</p>
-				<Link href={APP_PATHS.DASHBOARD}>
+				<Link href={APP_PATHS.HOME}>
 					<motion.button
 						whileHover={{ scale: 1.05 }}
 						whileTap={{ scale: 0.95 }}

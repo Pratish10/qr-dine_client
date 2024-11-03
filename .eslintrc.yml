@@ -1,0 +1,35 @@
+env:
+  browser: true
+  es2021: true
+extends:
+  - eslint:recommended
+  - standard-with-typescript
+  - plugin:react/recommended
+  - plugin:prettier/recommended
+parser: "@typescript-eslint/parser"
+parserOptions:
+  ecmaVersion: latest
+  sourceType: module
+  project: './tsconfig.json'
+plugins:
+  - react
+  - prettier
+rules:
+  prettier/prettier:
+    - error
+    - endOfLine: auto
+  react/react-in-jsx-scope: off
+  no-console: error
+  react/jsx-no-useless-fragment: [error, { allowExpressions: true }]
+ignorePatterns:
+  - node_modules/
+  - build/
+  - dist/
+  - .next/
+  - coverage/
+  - public/
+  - components/ui/**/*
+
+overrides:
+  - files: ["components/ui/**/*"]
+    rules: {}
