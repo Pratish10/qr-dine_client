@@ -27,10 +27,10 @@ jobs:
           echo "NEXT_PUBLIC_ADMIN_URL=${{ secrets.NEXT_PUBLIC_ADMIN_URL }}" >> $GITHUB_ENV
 
       - name: Run Lint
-        run: yarn run lint
+        run: yarn lint
 
       - name: Run Format Check
-        run: yarn run format
+        run: yarn format
 
       - name: Build with Next.js
-        run: yarn run build
+        run: yarn build
