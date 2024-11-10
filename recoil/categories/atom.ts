@@ -4,6 +4,8 @@ import { atom } from 'recoil';
 
 export const defaultCategory: CategoriesType = {
 	category: '',
+	label: '',
+	value: '',
 	createdAt: new Date(),
 	id: '',
 	restaurantId: '',
