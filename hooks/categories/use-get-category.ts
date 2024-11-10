@@ -24,7 +24,7 @@ export const useGetCategories = (restaurantId: string): UseQueryResult<ServerAct
 				const categoryData: CategoriesType[] = response.data?.data;
 
 				if (Array.isArray(categoryData)) {
-					setCategories(categoryData);
+					setCategories(categoryData.map((item) => ({ ...item, value: item.category, label: item.category })));
 				} else {
 					throw new Error('Data format is incorrect');
 				}

@@ -21,6 +21,10 @@ export const menuList = atom<Menu[]>({
 	key: 'menuList',
 	default: [defaultMenu],
 });
+export const filteredMenu = atom<Menu[]>({
+	key: 'filteredMenu',
+	default: [defaultMenu],
+});
 
 export const menuStatus = atom<RequestStatus>({
 	key: 'menuStatus',

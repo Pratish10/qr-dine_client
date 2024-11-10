@@ -3,7 +3,7 @@ export interface Menu {
 	menuId: string;
 	name: string;
 	description: string;
-	type: 'Vegeterian' | 'Non-Vegetarian';
+	type: 'Vegeterian' | 'nonVegeterian';
 	image: string[];
 	category: string;
 	amount: string;
@@ -16,6 +16,8 @@ export interface Menu {
 
 export interface CategoriesType {
 	category: string;
+	label: string;
+	value: string;
 	createdAt: Date;
 	id: string;
 	restaurantId: string;

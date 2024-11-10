@@ -10,31 +10,28 @@ export const Categories = (): React.JSX.Element => {
 	const catStatus = useRecoilValue(categoryStatus);
 
 	return (
-		<Card>
+		<Card className='dark:bg-gray-900'>
 			<CardHeader>
 				<CardTitle>Categories</CardTitle>
 			</CardHeader>
 			<CardContent>
 				{catStatus === 'loading' && (
-					<div className='flex space-x-10 items-center justify-center'>
-						<Skeleton className='h-8 w-36' />
-						<Skeleton className='h-8 w-36' />
-						<Skeleton className='h-8 w-36' />
-						<Skeleton className='h-8 w-36' />
-						<Skeleton className='h-8 w-36' />
-						<Skeleton className='h-8 w-36' />
+					<div className='flex space-x-4 justify-center flex-wrap'>
+						{[...Array(6)].map((_, index) => (
+							<Skeleton key={index} className='h-8 w-36 my-2' />
+						))}
 					</div>
 				)}
 
-				{categoryList.length > 0 ? (
-					<ul className='flex space-x-10 items-center justify-center'>
+				{catStatus === 'success' && categoryList.length > 0 && (
+					<ul className='flex space-x-12 items-center justify-center'>
 						{categoryList.map((category) => (
 							<li key={category.id}>{category.category}</li>
 						))}
 					</ul>
-				) : (
-					<p>No categories available</p>
 				)}
+
+				{catStatus === 'success' && categoryList.length === 0 && <p>No Categories available</p>}
 			</CardContent>
 		</Card>
 	);

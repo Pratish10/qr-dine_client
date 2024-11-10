@@ -1,18 +1,42 @@
 'use client';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SearchInput } from './search-input';
 import useScroll from '@/hooks/useScroll';
 import { ThemeSelect } from './theme-select';
 import Link from 'next/link';
+import { Button } from './ui/button';
+import { ShoppingCart } from 'lucide-react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { cart, notification } from '@/recoil/cart/atom';
+import { useRouter } from 'next/navigation';
+import APP_PATHS from '@/config/path.config';
+import { motion } from 'framer-motion';
 
 export const Navbar = (): React.JSX.Element => {
+	const router = useRouter();
 	const size = useScroll();
+	const cartItems = useRecoilValue(cart);
+	const [showNotification, setShowNotification] = useRecoilState(notification);
+
+	const handleCartClick = (): void => {
+		router.push(APP_PATHS.CART);
+		if (cartItems.length > 0) {
+			setShowNotification(true);
+		}
+	};
+
+	useEffect(() => {
+		if (cartItems.length === 0) {
+			setShowNotification(false);
+		}
+	}, [cartItems]);
+
 	return (
 		<nav
 			className={clsx(
 				'flex items-center h-14 fixed top-0 left-0 w-full z-10',
-				size.scrollY > 100 && 'dark:bg-black bg-white border-b-2 dark:border-b-gray-600'
+				size.scrollY > 15 && 'dark:bg-black bg-white border-b-2 dark:border-b-gray-600'
 			)}
 		>
 			<div className='container flex items-center justify-between'>
@@ -36,7 +60,22 @@ export const Navbar = (): React.JSX.Element => {
 				<div>
 					<SearchInput />
 				</div>
-				<ThemeSelect />
+				<div className='flex items-center justify-between'>
+					<Button className='rounded-full hover:bg-green-100 dark:hover:bg-green-600' size='icon' onClick={handleCartClick}>
+						<ShoppingCart size={20} />
+						{!showNotification && cartItems.length > 0 && (
+							<motion.span
+								className='bg-green-500 text-white rounded-full w-4 h-4 flex justify-center items-center text-xs absolute top-2 ml-5'
+								initial={{ opacity: 0, scale: 0.8 }}
+								animate={{ opacity: 1, scale: 1 }}
+								transition={{ duration: 0.3 }}
+							>
+								{cartItems.length}
+							</motion.span>
+						)}
+					</Button>
+					<ThemeSelect />
+				</div>
 			</div>
 		</nav>
 	);

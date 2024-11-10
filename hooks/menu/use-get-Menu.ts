@@ -20,7 +20,7 @@ export const useGetMenus = (restaurantId: string): UseQueryResult<ServerActionRe
 		queryFn: async () => {
 			setStatus('loading');
 			try {
-				const response = await axios.get(`${url}/api/menu?id=${restaurantId}`);
+				const response = await axios.get(`${url}/api/client/menus?id=${restaurantId}`);
 				const menuData: Menu[] = response.data?.data;
 
 				if (Array.isArray(menuData)) {
