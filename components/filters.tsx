@@ -1,27 +1,50 @@
 'use client';
 import React, { useState } from 'react';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '@/components/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { categories } from '@/recoil/categories/atom';
-import { CheckIcon } from 'lucide-react';
-import { cn, getDomain } from '@/lib/utils';
-import { menuList, menuStatus } from '@/recoil/menus/atom';
-import { type Menu } from '@/types/data.types';
-import { type ServerActionReturnType } from '@/types/api.types';
-import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { motion } from 'framer-motion';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from './ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Slider } from '@/components/ui/slider';
+import { SORT_OPTIONS, TABS } from '@/config/filter.config';
+import { Carrot, Drumstick } from 'lucide-react';
 
-export const Filters = (): React.JSX.Element => {
+interface FilterPropTypes {
+	selectedCategory: string[];
+	setSelectedCategory: React.Dispatch<React.SetStateAction<string[]>>;
+	sortBy: string;
+	setSortBy: React.Dispatch<React.SetStateAction<string>>;
+	type: 'Vegeterian' | 'nonVegeterian' | null;
+	setType: React.Dispatch<React.SetStateAction<'Vegeterian' | 'nonVegeterian' | null>>;
+	rating: number[];
+	setRating: React.Dispatch<React.SetStateAction<number[]>>;
+}
+
+export const Filters = ({
+	setSelectedCategory,
+	selectedCategory,
+	sortBy,
+	setSortBy,
+	type,
+	setType,
+	rating,
+	setRating,
+}: FilterPropTypes): React.JSX.Element => {
 	const categoryList = useRecoilValue(categories);
-	const [menStatus, setMenStatus] = useRecoilState(menuStatus);
-	const setMenus = useSetRecoilState(menuList);
+	const [activeTab, setActiveTab] = useState(TABS[0].value);
 
-	const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
-	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+	const tabVariants = {
+		inactive: { opacity: 0.6, y: 5 },
+		active: { opacity: 1, y: 0 },
+	};
 
-	const url = getDomain();
+	const contentVariants = {
+		inactive: { opacity: 0, y: 10 },
+		active: { opacity: 1, y: 0 },
+	};
 
 	const handleSelect = (catValue: string): void => {
 		setSelectedCategory((prevSelected) => {
@@ -36,132 +59,135 @@ export const Filters = (): React.JSX.Element => {
 		});
 	};
 
-	const applyFilter = async (): Promise<void> => {
-		setMenStatus('loading');
-		const categoriesParam = selectedCategory.join(',');
-		setIsPopoverOpen(false);
-
-		try {
-			const response = await fetch(`${url}/api/client/getMenusByCategories?id=${'cm2dlk2jj0000c3qr6z3fwihs'}&categories=${categoriesParam}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			});
-
-			if (!response.ok) {
-				throw new Error('Failed to apply filter');
-			}
-
-			const data: ServerActionReturnType<Menu[]> = await response.json();
-
-			if (data.status) {
-				setMenus(data.data ?? []);
-			} else {
-				throw new Error(data.message);
-			}
-			setMenStatus('success');
-		} catch (error: unknown) {
-			toast.error((error as Error).message);
-			setMenStatus('error');
-		}
-	};
-
 	return (
-		<div>
-			<Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-				<PopoverTrigger asChild disabled={menStatus === 'loading'}>
-					<Button
-						variant='outline'
-						size='sm'
-						className='h-8 border'
-						onClick={() => {
-							setIsPopoverOpen(!isPopoverOpen);
-						}}
-					>
-						{selectedCategory.length > 0 && (
-							<>
-								<Badge variant='secondary' className='rounded-sm px-1 font-normal lg:hidden'>
-									{selectedCategory.length}
-								</Badge>
-								<div className='hidden space-x-1 lg:flex'>
-									{selectedCategory.length > 2 ? (
-										<Badge variant='secondary' className='rounded-sm px-1 font-normal'>
-											{selectedCategory.length} selected
-										</Badge>
-									) : (
-										categoryList
-											.filter((cat) => selectedCategory.includes(cat.value))
-											.map((cat) => (
-												<Badge variant='secondary' key={cat.value} className='rounded-sm px-1 font-normal'>
-													{cat.label}
-												</Badge>
-											))
-									)}
-								</div>
-							</>
-						)}
-						Category
-					</Button>
-				</PopoverTrigger>
-				<PopoverContent className='w-[200px] p-0' align='start'>
-					<Command>
-						<CommandInput placeholder={'Category'} />
-						<CommandList>
-							<CommandEmpty>No results found.</CommandEmpty>
-							{selectedCategory.length > 0 && (
-								<>
-									<CommandSeparator />
-									<CommandGroup>
-										<CommandItem
-											onSelect={() => {
-												setSelectedCategory([]);
-											}}
-											className='justify-center text-center'
-										>
-											Clear filters
-										</CommandItem>
-									</CommandGroup>
-								</>
+		<div className='w-full max-w-md mx-auto p-4'>
+			<Tabs value={activeTab} onValueChange={setActiveTab} className='w-full'>
+				<TabsList className='grid w-full grid-cols-4 p-1 bg-muted rounded-full'>
+					{TABS.map((tab) => (
+						<TabsTrigger
+							key={tab.value}
+							value={tab.value}
+							className={cn(
+								'relative rounded-full transition-all',
+								'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
+								activeTab === tab.value && 'dark:bg-white dark:text-black text-white bg-black'
 							)}
-							<CommandGroup>
-								{categoryList.map((cat) => {
-									const isSelected = selectedCategory.includes(cat.value);
-									return (
-										<CommandItem
-											key={cat.id}
-											onSelect={() => {
-												handleSelect(cat.value);
+						>
+							<motion.div
+								variants={tabVariants}
+								initial='inactive'
+								animate={activeTab === tab.value ? 'active' : 'inactive'}
+								className={cn('relative z-10 text-black dark:text-white', activeTab === tab.value && 'text-white dark:text-black')}
+							>
+								{tab.label}
+							</motion.div>
+							{activeTab === tab.value && (
+								<motion.div
+									className='absolute inset-0 bg-primary rounded-full'
+									layoutId='activeTab'
+									transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+								/>
+							)}
+						</TabsTrigger>
+					))}
+				</TabsList>
+
+				{TABS.map((tab) => (
+					<TabsContent key={tab.value} value={tab.value} className='mt-4'>
+						<motion.div
+							variants={contentVariants}
+							initial='inactive'
+							animate={activeTab === tab.value ? 'active' : 'inactive'}
+							transition={{ duration: 0.3 }}
+						>
+							{tab.value === 'sort' && (
+								<RadioGroup value={sortBy} onValueChange={setSortBy} className='space-y-2'>
+									{SORT_OPTIONS.map((option) => (
+										<div key={option.value} className='flex items-center space-x-2'>
+											<RadioGroupItem value={option.value} id={option.value} className='text-black dark:text-white' />
+											<Label htmlFor={option.value} className='text-black dark:text-white'>
+												{option.label}
+											</Label>
+										</div>
+									))}
+								</RadioGroup>
+							)}
+							{tab.value === 'category' && (
+								<div className='space-y-3'>
+									{categoryList.map((category) => (
+										<div key={category.id} className='flex items-center space-x-2'>
+											<Checkbox
+												id={category.category}
+												checked={selectedCategory.includes(category.category)}
+												onCheckedChange={() => {
+													handleSelect(category.category);
+												}}
+												className='text-black dark:text-white'
+											/>
+											<Label className='text-black dark:text-white' htmlFor={category.category}>
+												{category.category}
+											</Label>
+										</div>
+									))}
+								</div>
+							)}
+							{tab.value === 'rating' && (
+								<div className='space-y-4'>
+									<Label htmlFor='rating-slider' className='text-black dark:text-white'>
+										Minimum Rating
+									</Label>
+									<Slider
+										id='rating-slider'
+										min={1}
+										max={5}
+										step={1}
+										value={rating}
+										onValueChange={setRating}
+										className='w-full text-black'
+									/>
+									<div className='flex justify-between text-xs'>
+										{[1, 2, 3, 4, 5].map((value) => (
+											<span key={value} className='text-black dark:text-white'>
+												{value}
+											</span>
+										))}
+									</div>
+								</div>
+							)}
+							{tab.value === 'type' && (
+								<div className='space-y-4'>
+									<div className='flex items-center space-x-2'>
+										<Checkbox
+											className='text-black dark:text-white'
+											checked={type === 'Vegeterian'}
+											onCheckedChange={() => {
+												setType((prev) => (prev === 'Vegeterian' ? null : 'Vegeterian'));
 											}}
-										>
-											<div
-												className={cn(
-													'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
-													isSelected ? 'bg-primary text-primary-foreground' : 'opacity-50 [&_svg]:invisible'
-												)}
-											>
-												<CheckIcon className={cn('h-4 w-4')} />
-											</div>
-											<span>{cat.label}</span>
-										</CommandItem>
-									);
-								})}
-							</CommandGroup>
-							<CommandSeparator />
-							<CommandGroup>
-								<CommandItem
-									onSelect={() => {
-										void applyFilter();
-									}}
-									className='justify-center text-center cursor-pointer'
-								>
-									Apply
-								</CommandItem>
-							</CommandGroup>
-						</CommandList>
-					</Command>
-				</PopoverContent>
-			</Popover>
+										/>
+										<Label className='flex items-center text-black dark:text-white'>
+											<Carrot className='mr-2 text-green-400' size={15} />
+											Veg
+										</Label>
+									</div>
+									<div className='flex items-center space-x-2'>
+										<Checkbox
+											className='text-black dark:text-white'
+											checked={type === 'nonVegeterian'}
+											onCheckedChange={() => {
+												setType((prev) => (prev === 'nonVegeterian' ? null : 'nonVegeterian'));
+											}}
+										/>
+										<Label className='flex items-center text-black dark:text-white'>
+											<Drumstick className='mr-2 text-red-400' size={15} />
+											Non Veg
+										</Label>
+									</div>
+								</div>
+							)}
+						</motion.div>
+					</TabsContent>
+				))}
+			</Tabs>
 		</div>
 	);
 };
