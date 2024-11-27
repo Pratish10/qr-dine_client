@@ -49,7 +49,7 @@ export const Navbar = (): React.JSX.Element => {
 						strokeWidth='2'
 						strokeLinecap='round'
 						strokeLinejoin='round'
-						className='h-6 w-6 text-green-600'
+						className='h-6 w-6 text-green-600 mr-3'
 					>
 						<path d='M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2' />
 						<path d='M7 2v20' />
