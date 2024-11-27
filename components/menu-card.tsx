@@ -7,6 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Carrot, Drumstick } from 'lucide-react';
 import { useSetRecoilState } from 'recoil';
 import { cart } from '@/recoil/cart/atom';
+import { StarRating } from './star-rating';
 
 const MenuTypeTooltip = ({ type }: { type: 'Vegeterian' | 'nonVegeterian' }): React.JSX.Element => (
 	<TooltipProvider>
@@ -48,6 +49,8 @@ export const MenuCard = ({ menu }: MenuCardProps): React.JSX.Element => {
 		});
 	};
 
+	const rating = menu.ratings != null && menu.ratings.length > 0 ? menu.ratings[0].value : 0;
+
 	return (
 		<motion.div className='rounded-lg shadow-lg hover:shadow-2xl bg-white dark:bg-gray-900 flex flex-col items-start gap-4 w-full sm:w-80 md:w-72 lg:w-80 p-3'>
 			<Image src={menu.image[0]} alt={menu.name} height={200} width={300} className='w-full h-56 object-cover rounded-md' />
@@ -65,6 +68,9 @@ export const MenuCard = ({ menu }: MenuCardProps): React.JSX.Element => {
 				<div className='flex items-center justify-between'>
 					<p className='text-sm text-gray-500 truncate'>{truncatedDescription}</p>
 					<p className='text-sm text-gray-500 dark:text-gray-200'>{menu.category}</p>
+				</div>
+				<div className='mt-2'>
+					<StarRating rating={rating} />
 				</div>
 			</div>
 

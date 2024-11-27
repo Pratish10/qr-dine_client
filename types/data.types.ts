@@ -1,3 +1,10 @@
+export interface Rating {
+	id: string;
+	menuId: string;
+	value: number;
+	createdAt: Date;
+}
+
 export interface Menu {
 	id: string;
 	menuId: string;
@@ -12,6 +19,7 @@ export interface Menu {
 	isFeatured: boolean;
 	availability: 'Available' | 'notAvailable';
 	restaurantId: string;
+	ratings?: Rating[];
 }
 
 export interface CategoriesType {
