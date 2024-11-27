@@ -1,36 +1,39 @@
 name: QR Dine - CLIENT Continous Integration
 
 on:
-  push:
-    branches: ["master"]
-  workflow_dispatch:
+    push:
+        branches: ['master']
+    workflow_dispatch:
 
 jobs:
-  ci:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    ci:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Setup Node and Yarn
-        run: |
-          # Set up Node.js
-          echo "Setting up Node.js"
-          npm i -g yarn
-          
-      - name: Install dependencies
-        run: yarn install
+            - name: Setup Node and Yarn
+              run: |
+                  # Set up Node.js
+                  echo "Setting up Node.js"
+                  npm i -g yarn
 
-      - name: Set up environment variables
-        id: set-env
-        run: |
-          echo "NEXT_PUBLIC_ADMIN_URL=${{ secrets.NEXT_PUBLIC_ADMIN_URL }}" >> $GITHUB_ENV
+            - name: Clean up dependencies
+              run: rm -rf node_modules yarn.lock
 
-      - name: Run Lint
-        run: yarn lint
+            - name: Install dependencies
+              run: yarn install
 
-      - name: Run Format Check
-        run: yarn format
+            - name: Set up environment variables
+              id: set-env
+              run: |
+                  echo "NEXT_PUBLIC_ADMIN_URL=${{ secrets.NEXT_PUBLIC_ADMIN_URL }}" >> $GITHUB_ENV
 
-      - name: Build with Next.js
-        run: yarn build
+            - name: Run Lint
+              run: yarn lint
+
+            - name: Run Format Check
+              run: yarn format
+
+            - name: Build with Next.js
+              run: yarn build

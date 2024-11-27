@@ -62,17 +62,19 @@ export const Navbar = (): React.JSX.Element => {
 				</div>
 				<div className='flex items-center justify-between'>
 					<Button className='rounded-full hover:bg-green-100 dark:hover:bg-green-600' size='icon' onClick={handleCartClick}>
-						<ShoppingCart size={20} />
-						{!showNotification && cartItems.length > 0 && (
-							<motion.span
-								className='bg-green-500 text-white rounded-full w-4 h-4 flex justify-center items-center text-xs absolute top-2 ml-5'
-								initial={{ opacity: 0, scale: 0.8 }}
-								animate={{ opacity: 1, scale: 1 }}
-								transition={{ duration: 0.3 }}
-							>
-								{cartItems.length}
-							</motion.span>
-						)}
+						<Link href={APP_PATHS.CART}>
+							<ShoppingCart size={20} />
+							{!showNotification && cartItems.length > 0 && (
+								<motion.span
+									className='bg-green-500 text-white rounded-full w-4 h-4 flex justify-center items-center text-xs absolute top-2 ml-5'
+									initial={{ opacity: 0, scale: 0.8 }}
+									animate={{ opacity: 1, scale: 1 }}
+									transition={{ duration: 0.3 }}
+								>
+									{cartItems.length}
+								</motion.span>
+							)}
+						</Link>
 					</Button>
 					<ThemeSelect />
 				</div>
