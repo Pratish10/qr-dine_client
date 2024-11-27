@@ -55,7 +55,7 @@ export const Navbar = (): React.JSX.Element => {
 						<path d='M7 2v20' />
 						<path d='M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7' />
 					</svg>
-					<span className='font-bold'>QR Dine</span>
+					<span className='font-bold hidden sm:block'>QR Dine</span>
 				</Link>
 				<div>
 					<SearchInput />
