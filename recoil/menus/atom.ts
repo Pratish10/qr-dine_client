@@ -17,6 +17,7 @@ const defaultMenu: Menu = {
 	availability: 'Available',
 	restaurantId: '',
 	ratings: [],
+	averageRating: null,
 };
 export const menuList = atom<Menu[]>({
 	key: 'menuList',

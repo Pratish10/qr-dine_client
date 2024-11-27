@@ -30,7 +30,7 @@ export const MenuListItem: React.FC<MenuListItemProps> = ({ menu }) => {
 		});
 	};
 
-	const rating = menu.ratings != null && menu.ratings.length > 0 ? menu.ratings[0].value : 0;
+	const rating = menu.averageRating ?? 0;
 
 	return (
 		<div className='flex items-center justify-between py-4 border-b last:border-b-0'>

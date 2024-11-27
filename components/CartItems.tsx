@@ -20,7 +20,7 @@ export const CartItems = ({ cartItem, onRemove, onUpdateQuantity }: CartItemProp
 	if (!hydrated) {
 		return null;
 	}
-	const rating = cartItem.ratings != null && cartItem.ratings.length > 0 ? cartItem.ratings[0].value : 0;
+	const rating = cartItem.averageRating ?? 0;
 	return (
 		<div className='flex flex-col sm:flex-row gap-4 py-2 sm:py-4 border-b last:border-0'>
 			<div className='w-full sm:w-24 h-24 rounded-lg overflow-hidden flex-shrink-0'>

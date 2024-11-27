@@ -49,7 +49,7 @@ export const MenuCard = ({ menu }: MenuCardProps): React.JSX.Element => {
 		});
 	};
 
-	const rating = menu.ratings != null && menu.ratings.length > 0 ? menu.ratings[0].value : 0;
+	const rating = menu.averageRating ?? 0;
 
 	return (
 		<motion.div className='rounded-lg shadow-lg hover:shadow-2xl bg-white dark:bg-gray-900 flex flex-col items-start gap-4 w-full sm:w-80 md:w-72 lg:w-80 p-3'>

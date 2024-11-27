@@ -20,6 +20,7 @@ export interface Menu {
 	availability: 'Available' | 'notAvailable';
 	restaurantId: string;
 	ratings?: Rating[];
+	averageRating: number | null;
 }
 
 export interface CategoriesType {
