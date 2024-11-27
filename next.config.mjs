@@ -13,6 +13,11 @@ const nextConfig = {
 				hostname: 'quickchart.io',
 				pathname: '**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'via.placeholder.com',
+				pathname: '**',
+			},
 		],
 	},
 };

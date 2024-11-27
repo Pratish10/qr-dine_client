@@ -3,24 +3,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from './ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Carrot, Drumstick } from 'lucide-react';
 import { useSetRecoilState } from 'recoil';
 import { cart } from '@/recoil/cart/atom';
 import { StarRating } from './star-rating';
-
-const MenuTypeTooltip = ({ type }: { type: 'Vegeterian' | 'nonVegeterian' }): React.JSX.Element => (
-	<TooltipProvider>
-		<Tooltip>
-			<TooltipTrigger asChild>
-				{type === 'Vegeterian' ? <Carrot color='green' size={15} /> : <Drumstick color='red' size={15} />}
-			</TooltipTrigger>
-			<TooltipContent>
-				<p>{type}</p>
-			</TooltipContent>
-		</Tooltip>
-	</TooltipProvider>
-);
 
 interface MenuCardProps {
 	menu: Menu;
@@ -58,19 +43,19 @@ export const MenuCard = ({ menu }: MenuCardProps): React.JSX.Element => {
 			<div className='w-full'>
 				<div className='flex items-center justify-between'>
 					<div className='flex items-center'>
-						<h2 className='font-semibold text-gray-800 dark:text-gray-200'>{menu.name}</h2>
-						<span className='ml-2'>
-							<MenuTypeTooltip type={menu.type} />
-						</span>
+						<h2 className='font-semibold text-gray-800 dark:text-gray-100'>{menu.name}</h2>
 					</div>
 					<p className='text-gray-800 dark:text-gray-200'>₹{menu.amount}</p>
 				</div>
 				<div className='flex items-center justify-between'>
-					<p className='text-sm text-gray-500 truncate'>{truncatedDescription}</p>
-					<p className='text-sm text-gray-500 dark:text-gray-200'>{menu.category}</p>
+					<p className='text-sm text-gray-600 dark:text-gray-200 truncate'>{truncatedDescription}</p>
+					<p className='text-sm text-gray-400 dark:text-gray-400'>{menu.category}</p>
 				</div>
 				<div className='mt-2'>
 					<StarRating rating={rating} />
+					<p className={`text-xs mt-1 ${menu.type === 'Vegeterian' ? 'text-green-500' : 'text-red-500'}`}>
+						{menu.type === 'Vegeterian' ? 'Vegeterian' : 'Non-Vegeterian'}
+					</p>
 				</div>
 			</div>
 

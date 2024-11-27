@@ -36,11 +36,6 @@ export const Filters = ({
 	const categoryList = useRecoilValue(categories);
 	const [activeTab, setActiveTab] = useState(TABS[0].value);
 
-	const tabVariants = {
-		inactive: { opacity: 0.6, y: 5 },
-		active: { opacity: 1, y: 0 },
-	};
-
 	const contentVariants = {
 		inactive: { opacity: 0, y: 10 },
 		active: { opacity: 1, y: 0 },
@@ -74,9 +69,7 @@ export const Filters = ({
 							)}
 						>
 							<motion.div
-								variants={tabVariants}
 								initial='inactive'
-								animate={activeTab === tab.value ? 'active' : 'inactive'}
 								className={cn('relative z-10 text-black dark:text-white', activeTab === tab.value && 'text-white dark:text-black')}
 							>
 								{tab.label}
