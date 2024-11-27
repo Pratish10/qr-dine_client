@@ -14,6 +14,7 @@ import { type Menu } from '@/types/data.types';
 import clsx from 'clsx';
 import { menuList, menuStatus } from '@/recoil/menus/atom';
 import { MenuListItem } from './menu-list-item';
+import { useRouter } from 'next/navigation';
 
 export const Menus = (): React.JSX.Element => {
 	const menus = useRecoilValue(menuList);
@@ -24,6 +25,7 @@ export const Menus = (): React.JSX.Element => {
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 	const [rating, setRating] = useState<number[]>([4]);
 	const [filteredMenus, setFilteredMenus] = useState<Menu[]>([]);
+	const router = useRouter();
 
 	const applyFilter = (): void => {
 		const filteredData = menus.filter((menu) => {
@@ -135,14 +137,34 @@ export const Menus = (): React.JSX.Element => {
 					<>
 						<div className='hidden lg:grid lg:grid-cols-4 gap-6'>
 							{filteredMenus.map((item) => (
-								<motion.div key={item.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} whileHover={{ scale: 1.02 }}>
+								<motion.div
+									key={item.id}
+									initial={{ opacity: 0, y: 20 }}
+									animate={{ opacity: 1, y: 0 }}
+									whileHover={{ scale: 1.02 }}
+									className='cursor-pointer'
+									onClick={() => {
+										router.push(`/${item.id}`);
+									}}
+								>
 									<MenuCard menu={item} />
 								</motion.div>
 							))}
 						</div>
 						<div className='lg:hidden'>
 							{filteredMenus.map((item) => (
-								<MenuListItem key={item.id} menu={item} />
+								<motion.div
+									key={item.id}
+									initial={{ opacity: 0, y: 20 }}
+									animate={{ opacity: 1, y: 0 }}
+									whileHover={{ scale: 1.02 }}
+									className='cursor-pointer'
+									onClick={() => {
+										router.push(`/${item.id}`);
+									}}
+								>
+									<MenuListItem menu={item} />
+								</motion.div>
 							))}
 						</div>
 					</>

@@ -11,6 +11,7 @@ import { CartItems } from '@/components/CartItems';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cart, type CartType } from '@/recoil/cart/atom';
+import { RATING_STAR } from '@/config/filter.config';
 
 const CheckoutWizard = (): React.JSX.Element => {
 	const [step, setStep] = useState(1);
@@ -155,7 +156,7 @@ const CheckoutWizard = (): React.JSX.Element => {
 													<div key={item.id} className='flex items-center justify-between mb-2 text-sm'>
 														<span>{item.name}</span>
 														<div className='flex items-center'>
-															{[1, 2, 3, 4, 5].map((star) => (
+															{RATING_STAR.map((star) => (
 																<Star
 																	key={star}
 																	size={24}

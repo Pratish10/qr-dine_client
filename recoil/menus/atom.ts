@@ -32,3 +32,13 @@ export const menuStatus = atom<RequestStatus>({
 	key: 'menuStatus',
 	default: 'idle',
 });
+
+export const menuDetailStatus = atom<RequestStatus>({
+	key: 'menuDetailStatus',
+	default: 'idle',
+});
+
+export const menu = atom<Menu | null>({
+	key: 'menu',
+	default: null,
+});

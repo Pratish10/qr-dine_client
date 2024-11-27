@@ -11,3 +11,5 @@ export const SORT_OPTIONS = [
 	{ value: 'price-low', label: 'Price: Low to High' },
 	{ value: 'price-high', label: 'Price: High to Low' },
 ];
+
+export const RATING_STAR = [1, 2, 3, 4, 5];

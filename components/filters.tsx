@@ -9,7 +9,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from './ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
-import { SORT_OPTIONS, TABS } from '@/config/filter.config';
+import { RATING_STAR, SORT_OPTIONS, TABS } from '@/config/filter.config';
 import { Carrot, Drumstick } from 'lucide-react';
 
 interface FilterPropTypes {
@@ -139,7 +139,7 @@ export const Filters = ({
 										className='w-full text-black'
 									/>
 									<div className='flex justify-between text-xs'>
-										{[1, 2, 3, 4, 5].map((value) => (
+										{RATING_STAR.map((value) => (
 											<span key={value} className='text-black dark:text-white'>
 												{value}
 											</span>
