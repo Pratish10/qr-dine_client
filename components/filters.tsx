@@ -10,15 +10,15 @@ import { Label } from './ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { RATING_STAR, SORT_OPTIONS, TABS } from '@/config/filter.config';
-import { Carrot, Drumstick } from 'lucide-react';
+import { Carrot, CheckCircle2, Drumstick, XCircle } from 'lucide-react';
 
 interface FilterPropTypes {
 	selectedCategory: string[];
 	setSelectedCategory: React.Dispatch<React.SetStateAction<string[]>>;
 	sortBy: string;
 	setSortBy: React.Dispatch<React.SetStateAction<string>>;
-	type: 'Vegeterian' | 'nonVegeterian' | null;
-	setType: React.Dispatch<React.SetStateAction<'Vegeterian' | 'nonVegeterian' | null>>;
+	type: 'Vegeterian' | 'nonVegeterian' | 'Available' | 'notAvailable' | null;
+	setType: React.Dispatch<React.SetStateAction<'Vegeterian' | 'nonVegeterian' | 'Available' | 'notAvailable' | null>>;
 	rating: number[];
 	setRating: React.Dispatch<React.SetStateAction<number[]>>;
 }
@@ -173,6 +173,32 @@ export const Filters = ({
 										<Label className='flex items-center text-black dark:text-white'>
 											<Drumstick className='mr-2 text-red-400' size={15} />
 											Non Veg
+										</Label>
+									</div>
+									<div className='flex items-center space-x-2'>
+										<Checkbox
+											className='text-black dark:text-white'
+											checked={type === 'Available'}
+											onCheckedChange={() => {
+												setType((prev) => (prev === 'Available' ? null : 'Available'));
+											}}
+										/>
+										<Label className='flex items-center text-black dark:text-white'>
+											<CheckCircle2 className='mr-2 text-green-400' size={15} />
+											Available
+										</Label>
+									</div>
+									<div className='flex items-center space-x-2'>
+										<Checkbox
+											className='text-black dark:text-white'
+											checked={type === 'notAvailable'}
+											onCheckedChange={() => {
+												setType((prev) => (prev === 'notAvailable' ? null : 'notAvailable'));
+											}}
+										/>
+										<Label className='flex items-center text-black dark:text-white'>
+											<XCircle className='mr-2 text-red-400' size={15} />
+											Not Available
 										</Label>
 									</div>
 								</div>

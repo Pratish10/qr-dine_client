@@ -19,7 +19,7 @@ import { useRouter } from 'next/navigation';
 export const Menus = (): React.JSX.Element => {
 	const menus = useRecoilValue(menuList);
 	const menStatus = useRecoilValue(menuStatus);
-	const [type, setType] = useState<'Vegeterian' | 'nonVegeterian' | null>(null);
+	const [type, setType] = useState<'Vegeterian' | 'nonVegeterian' | 'Available' | 'notAvailable' | null>(null);
 	const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
 	const [sortBy, setSortBy] = useState(SORT_OPTIONS[0].value);
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -30,7 +30,11 @@ export const Menus = (): React.JSX.Element => {
 	const applyFilter = (): void => {
 		const filteredData = menus.filter((menu) => {
 			const matchesType =
-				type === null || (type === 'Vegeterian' && menu.type === 'Vegeterian') || (type === 'nonVegeterian' && menu.type === 'nonVegeterian');
+				type === null ||
+				(type === 'Vegeterian' && menu.type === 'Vegeterian') ||
+				(type === 'nonVegeterian' && menu.type === 'nonVegeterian') ||
+				(type === 'Available' && menu.availability === 'Available') ||
+				(type === 'notAvailable' && menu.availability === 'notAvailable');
 
 			const matchesCategory = selectedCategory.length === 0 || selectedCategory.includes(menu.category);
 
