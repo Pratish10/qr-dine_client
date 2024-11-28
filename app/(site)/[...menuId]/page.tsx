@@ -23,23 +23,23 @@ const MenuPage = ({ params }: MenuPageProps): JSX.Element => {
 	const menuDetail = useRecoilValue(menu);
 	const setCartValue = useSetRecoilState(cart);
 
-	const addMenuToCart = (menu: Menu): void => {
-		setCartValue((prevValue) => {
-			const currentCart = Array.isArray(prevValue) ? prevValue : [];
-			const existingItemIndex = currentCart.findIndex((item) => item.id === menu.id);
+	// const addMenuToCart = (menu: Menu): void => {
+	// 	setCartValue((prevValue) => {
+	// 		const currentCart = Array.isArray(prevValue) ? prevValue : [];
+	// 		const existingItemIndex = currentCart.findIndex((item) => item.id === menu.id);
 
-			if (existingItemIndex !== -1) {
-				const updatedCart = [...currentCart];
-				updatedCart[existingItemIndex] = {
-					...updatedCart[existingItemIndex],
-					quantity: updatedCart[existingItemIndex].quantity + 1,
-					amount: (Number(menu.amount) * (updatedCart[existingItemIndex].quantity + 1)).toFixed(2),
-				};
-				return updatedCart;
-			}
-			return [...currentCart, { ...menu, quantity: 1 }];
-		});
-	};
+	// 		if (existingItemIndex !== -1) {
+	// 			const updatedCart = [...currentCart];
+	// 			updatedCart[existingItemIndex] = {
+	// 				...updatedCart[existingItemIndex],
+	// 				quantity: updatedCart[existingItemIndex].quantity + 1,
+	// 				amount: (Number(menu.amount) * (updatedCart[existingItemIndex].quantity + 1)).toFixed(2),
+	// 			};
+	// 			return updatedCart;
+	// 		}
+	// 		return [...currentCart, { ...menu, quantity: 1 }];
+	// 	});
+	// };
 
 	if (menDetailStatus === 'loading') {
 		return (
@@ -118,9 +118,9 @@ const MenuPage = ({ params }: MenuPageProps): JSX.Element => {
 							<PurchaseCard
 								price={menuDetail.amount}
 								availability={menuDetail.availability}
-								onAddToCart={() => {
-									addMenuToCart(menuDetail);
-								}}
+								// onAddToCart={() => {
+								// 	addMenuToCart(menuDetail);
+								// }}
 							/>
 						</div>
 					</div>

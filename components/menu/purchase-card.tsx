@@ -5,10 +5,10 @@ import { ShoppingCart } from 'lucide-react';
 interface PurchaseCardProps {
 	price: string;
 	availability: string;
-	onAddToCart: () => void;
+	// onAddToCart: () => void;
 }
 
-export function PurchaseCard({ price, availability, onAddToCart }: PurchaseCardProps): JSX.Element {
+export function PurchaseCard({ price, availability }: PurchaseCardProps): JSX.Element {
 	return (
 		<Card className='p-6 space-y-6 sticky top-6'>
 			<div className='space-y-2'>
@@ -25,9 +25,9 @@ export function PurchaseCard({ price, availability, onAddToCart }: PurchaseCardP
 							className='w-full'
 							size='lg'
 							variant='green'
-							onClick={() => {
-								onAddToCart();
-							}}
+							// onClick={() => {
+							// 	onAddToCart();
+							// }}
 						>
 							<ShoppingCart className='w-4 h-4 mr-2' />
 							Add to Cart
