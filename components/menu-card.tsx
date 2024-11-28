@@ -59,7 +59,9 @@ export const MenuCard = ({ menu }: MenuCardProps): React.JSX.Element => {
 
 			<Button
 				variant='green'
-				onClick={() => onOpen(menu)}
+				onClick={() => {
+					onOpen(menu);
+				}}
 				size='sm'
 				className='w-full bg-green-500 text-white hover:bg-green-600 rounded-md'
 				disabled={!isAvailable}

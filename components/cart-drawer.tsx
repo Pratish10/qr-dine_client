@@ -121,7 +121,7 @@ export const CartDrawer = (): JSX.Element | null => {
 						className='w-full'
 						variant='green'
 						onClick={() => {
-							addMenuToCart(data as Menu);
+							addMenuToCart(data);
 						}}
 					>
 						<ShoppingCart className='mr-2 h-4 w-4' /> Add to Cart - ₹{amount}

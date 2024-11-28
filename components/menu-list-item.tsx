@@ -49,7 +49,9 @@ export const MenuListItem: React.FC<MenuListItemProps> = ({ menu }) => {
 			<Button
 				variant='green'
 				size='sm'
-				onClick={() => onOpen(menu)}
+				onClick={() => {
+					onOpen(menu);
+				}}
 				className='whitespace-nowrap text-xs mt-4 w-full'
 				disabled={menu.availability !== 'Available'}
 			>
