@@ -2,6 +2,7 @@
 import { Navbar } from '@/components/navbar';
 import { useGetCategories } from '@/hooks/categories/use-get-category';
 import React from 'react';
+import { DrawerProvider } from '../DrawerProivder';
 
 const HomeLayout = ({
 	children,
@@ -13,6 +14,7 @@ const HomeLayout = ({
 	return (
 		<div className='container'>
 			<Navbar />
+			<DrawerProvider />
 			<div className='pt-14'>{children}</div>
 		</div>
 	);

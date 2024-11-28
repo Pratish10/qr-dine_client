@@ -2,36 +2,17 @@ import React from 'react';
 import { type Menu } from '@/types/data.types';
 import { StarRating } from './star-rating';
 import { Button } from './ui/button';
-import { useSetRecoilState } from 'recoil';
-import { cart } from '@/recoil/cart/atom';
 import Image from 'next/image';
 import { Badge } from './ui/badge';
 import { CheckCircle2, XCircle } from 'lucide-react';
+import { useDrawerController } from '@/hooks/use-drawer-controller';
 
 interface MenuListItemProps {
 	menu: Menu;
 }
 
 export const MenuListItem: React.FC<MenuListItemProps> = ({ menu }) => {
-	const setCartValue = useSetRecoilState(cart);
-
-	const addMenuToCart = (menu: Menu): void => {
-		setCartValue((prevValue) => {
-			const currentCart = Array.isArray(prevValue) ? prevValue : [];
-			const existingItemIndex = currentCart.findIndex((item) => item.id === menu.id);
-
-			if (existingItemIndex !== -1) {
-				const updatedCart = [...currentCart];
-				updatedCart[existingItemIndex] = {
-					...updatedCart[existingItemIndex],
-					quantity: updatedCart[existingItemIndex].quantity + 1,
-					amount: (Number(menu.amount) * (updatedCart[existingItemIndex].quantity + 1)).toFixed(2),
-				};
-				return updatedCart;
-			}
-			return [...currentCart, { ...menu, quantity: 1 }];
-		});
-	};
+	const { onOpen } = useDrawerController();
 
 	const rating = menu.averageRating ?? 0;
 	const truncatedDescription = menu.description.length > 25 ? `${menu.description.slice(0, 25)}...` : menu.description;
@@ -68,13 +49,11 @@ export const MenuListItem: React.FC<MenuListItemProps> = ({ menu }) => {
 			<Button
 				variant='green'
 				size='sm'
-				onClick={() => {
-					addMenuToCart(menu);
-				}}
+				onClick={() => onOpen(menu)}
 				className='whitespace-nowrap text-xs mt-4 w-full'
 				disabled={menu.availability !== 'Available'}
 			>
-				{menu.availability === 'Available' ? 'Add to Cart' : 'Not Available'}
+				{menu.availability === 'Available' ? 'Add' : 'Not Available'}
 			</Button>
 		</div>
 	);

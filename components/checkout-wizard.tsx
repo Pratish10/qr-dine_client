@@ -39,7 +39,7 @@ const CheckoutWizard = (): React.JSX.Element => {
 					? {
 							...cartValue,
 							quantity,
-							amount: ((Number(cartValue.amount) / cartValue.quantity) * quantity).toFixed(2),
+							calculatedAmount: ((Number(cartValue.calculatedAmount) / cartValue.quantity) * quantity).toFixed(2),
 						}
 					: cartValue
 			)

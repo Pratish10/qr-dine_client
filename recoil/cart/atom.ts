@@ -3,6 +3,7 @@ import { type Menu } from '@/types/data.types';
 
 export interface CartType extends Menu {
 	quantity: number;
+	calculatedAmount: string;
 }
 
 export const cart = atom<CartType[]>({

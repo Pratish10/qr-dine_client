@@ -3,38 +3,19 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from './ui/button';
-import { useSetRecoilState } from 'recoil';
-import { cart } from '@/recoil/cart/atom';
 import { StarRating } from './star-rating';
 import { Badge } from './ui/badge';
 import { CheckCircle2, XCircle } from 'lucide-react';
+import { useDrawerController } from '@/hooks/use-drawer-controller';
 
 interface MenuCardProps {
 	menu: Menu;
 }
 
 export const MenuCard = ({ menu }: MenuCardProps): React.JSX.Element => {
-	const setCartValue = useSetRecoilState(cart);
+	const { onOpen } = useDrawerController();
 
 	const truncatedDescription = menu.description.length > 25 ? `${menu.description.slice(0, 25)}...` : menu.description;
-
-	const addMenuToCart = (menu: Menu): void => {
-		setCartValue((prevValue) => {
-			const currentCart = Array.isArray(prevValue) ? prevValue : [];
-			const existingItemIndex = currentCart.findIndex((item) => item.id === menu.id);
-
-			if (existingItemIndex !== -1) {
-				const updatedCart = [...currentCart];
-				updatedCart[existingItemIndex] = {
-					...updatedCart[existingItemIndex],
-					quantity: updatedCart[existingItemIndex].quantity + 1,
-					amount: (Number(menu.amount) * (updatedCart[existingItemIndex].quantity + 1)).toFixed(2),
-				};
-				return updatedCart;
-			}
-			return [...currentCart, { ...menu, quantity: 1 }];
-		});
-	};
 
 	const rating = menu.averageRating ?? 0;
 	const isAvailable = menu.availability === 'Available';
@@ -78,14 +59,12 @@ export const MenuCard = ({ menu }: MenuCardProps): React.JSX.Element => {
 
 			<Button
 				variant='green'
-				onClick={() => {
-					addMenuToCart(menu);
-				}}
+				onClick={() => onOpen(menu)}
 				size='sm'
 				className='w-full bg-green-500 text-white hover:bg-green-600 rounded-md'
 				disabled={!isAvailable}
 			>
-				{isAvailable ? 'Add to Cart' : 'Not Available'}
+				{isAvailable ? 'Add' : 'Not Available'}
 			</Button>
 		</motion.div>
 	);

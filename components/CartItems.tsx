@@ -29,6 +29,10 @@ export const CartItems = ({ cartItem, onRemove, onUpdateQuantity }: CartItemProp
 			<div className='flex-1 min-w-0 mt-2 sm:mt-0'>
 				<h3 className='font-medium text-sm sm:text-base text-left truncate'>{cartItem.name}</h3>
 				<p className='text-xs sm:text-sm text-muted-foreground text-left truncate'>{cartItem.description}</p>
+				<div className='text-sm text-muted-foreground mt-1'>
+					<span>₹{cartItem.amount}</span> x {cartItem.quantity} ={' '}
+					<span className='font-medium text-foreground'>₹{cartItem.calculatedAmount}</span>
+				</div>
 				<div className='flex flex-col sm:flex-row sm:items-center sm:justify-between mt-2 gap-2'>
 					<div className='flex items-center'>
 						<Button
@@ -58,7 +62,7 @@ export const CartItems = ({ cartItem, onRemove, onUpdateQuantity }: CartItemProp
 					</div>
 
 					<div className='flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2 mt-2 sm:mt-0'>
-						<span className='font-medium text-sm sm:text-base'>₹{cartItem.amount}</span>
+						<span className='font-medium text-sm sm:text-base'>₹{cartItem.calculatedAmount}</span>
 						<Button
 							variant='ghost'
 							size='icon'
