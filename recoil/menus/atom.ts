@@ -2,30 +2,30 @@ import { type RequestStatus } from '@/types/api.types';
 import { type Menu } from '@/types/data.types';
 import { atom } from 'recoil';
 
-const defaultMenu: Menu = {
-	id: '',
-	menuId: '',
-	name: '',
-	description: '',
-	type: 'Vegeterian',
-	image: [],
-	category: '',
-	amount: '',
-	createdAt: new Date(),
-	updatedAt: new Date(),
-	isFeatured: false,
-	availability: 'Available',
-	restaurantId: '',
-	ratings: [],
-	averageRating: null,
-};
-export const menuList = atom<Menu[]>({
+// const defaultMenu: Menu = {
+// 	id: '',
+// 	menuId: '',
+// 	name: '',
+// 	description: '',
+// 	type: 'Vegeterian',
+// 	image: [],
+// 	category: '',
+// 	amount: '',
+// 	createdAt: new Date(),
+// 	updatedAt: new Date(),
+// 	isFeatured: false,
+// 	availability: 'Available',
+// 	restaurantId: '',
+// 	ratings: [],
+// 	averageRating: null,
+// };
+export const menuList = atom<Menu[] | null>({
 	key: 'menuList',
-	default: [defaultMenu],
+	default: null,
 });
-export const filteredMenu = atom<Menu[]>({
+export const filteredMenu = atom<Menu[] | null>({
 	key: 'filteredMenu',
-	default: [defaultMenu],
+	default: null,
 });
 
 export const menuStatus = atom<RequestStatus>({
@@ -41,4 +41,8 @@ export const menuDetailStatus = atom<RequestStatus>({
 export const menu = atom<Menu | null>({
 	key: 'menu',
 	default: null,
+});
+export const filters = atom<any>({
+	key: 'filters',
+	default: {},
 });

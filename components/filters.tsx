@@ -19,6 +19,8 @@ interface FilterPropTypes {
 	setSortBy: React.Dispatch<React.SetStateAction<string>>;
 	type: 'Vegeterian' | 'nonVegeterian' | 'Available' | 'notAvailable' | null;
 	setType: React.Dispatch<React.SetStateAction<'Vegeterian' | 'nonVegeterian' | 'Available' | 'notAvailable' | null>>;
+	availability: 'Available' | 'notAvailable' | null;
+	setAvailability: React.Dispatch<React.SetStateAction<'Available' | 'notAvailable' | null>>;
 	rating: number[];
 	setRating: React.Dispatch<React.SetStateAction<number[]>>;
 }
@@ -32,6 +34,8 @@ export const Filters = ({
 	setType,
 	rating,
 	setRating,
+	availability,
+	setAvailability,
 }: FilterPropTypes): React.JSX.Element => {
 	const categoryList = useRecoilValue(categories);
 	const [activeTab, setActiveTab] = useState(TABS[0].value);
@@ -178,9 +182,9 @@ export const Filters = ({
 									<div className='flex items-center space-x-2'>
 										<Checkbox
 											className='text-black dark:text-white'
-											checked={type === 'Available'}
+											checked={availability === 'Available'}
 											onCheckedChange={() => {
-												setType((prev) => (prev === 'Available' ? null : 'Available'));
+												setAvailability((prev) => (prev === 'Available' ? null : 'Available'));
 											}}
 										/>
 										<Label className='flex items-center text-black dark:text-white'>
@@ -191,9 +195,9 @@ export const Filters = ({
 									<div className='flex items-center space-x-2'>
 										<Checkbox
 											className='text-black dark:text-white'
-											checked={type === 'notAvailable'}
+											checked={availability === 'notAvailable'}
 											onCheckedChange={() => {
-												setType((prev) => (prev === 'notAvailable' ? null : 'notAvailable'));
+												setAvailability((prev) => (prev === 'notAvailable' ? null : 'notAvailable'));
 											}}
 										/>
 										<Label className='flex items-center text-black dark:text-white'>

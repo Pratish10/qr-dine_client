@@ -2,24 +2,27 @@
 
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { Skeleton } from '@/components/ui/skeleton';
 import { MenuCard } from '@/components/menu-card';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { Filters } from './filters';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from './ui/button';
 import { SORT_OPTIONS } from '@/config/filter.config';
 import { type Menu } from '@/types/data.types';
 import clsx from 'clsx';
-import { menuList, menuStatus } from '@/recoil/menus/atom';
+import { filters } from '@/recoil/menus/atom';
 import { MenuListItem } from './menu-list-item';
 import { useRouter } from 'next/navigation';
+import { useGetMenus } from '@/hooks/menu/use-get-Menu';
 
 export const Menus = (): React.JSX.Element => {
-	const menus = useRecoilValue(menuList);
-	const menStatus = useRecoilValue(menuStatus);
+	const { ref, inView } = useInView();
+	const [filterOpt, setFilterOpt] = useRecoilState(filters);
 	const [type, setType] = useState<'Vegeterian' | 'nonVegeterian' | 'Available' | 'notAvailable' | null>(null);
+	const [availability, setAvailability] = useState<'Available' | 'notAvailable' | null>(null);
 	const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
 	const [sortBy, setSortBy] = useState(SORT_OPTIONS[0].value);
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -27,36 +30,51 @@ export const Menus = (): React.JSX.Element => {
 	const [filteredMenus, setFilteredMenus] = useState<Menu[]>([]);
 	const router = useRouter();
 
+	const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = useGetMenus('cm2dlk2jj0000c3qr6z3fwihs', filterOpt as object);
+
+	useEffect(() => {
+		if (inView && hasNextPage) {
+			void fetchNextPage();
+		}
+	}, [inView, hasNextPage, fetchNextPage]);
+
+	useEffect(() => {
+		if (status === 'success' || !isFetchingNextPage) {
+			const finalData: Menu[] | undefined = data?.pages
+				.map((page) => {
+					if (page.data.status) {
+						return page.data.data;
+					}
+					return undefined;
+				})
+				.filter((menu) => menu !== undefined)
+				.flat();
+
+			setFilteredMenus(finalData ?? []);
+		}
+	}, [status, isFetchingNextPage]);
+
 	const applyFilter = (): void => {
-		const filteredData = menus.filter((menu) => {
-			const matchesType =
-				type === null ||
-				(type === 'Vegeterian' && menu.type === 'Vegeterian') ||
-				(type === 'nonVegeterian' && menu.type === 'nonVegeterian') ||
-				(type === 'Available' && menu.availability === 'Available') ||
-				(type === 'notAvailable' && menu.availability === 'notAvailable');
+		const filterOptions: any = {};
 
-			const matchesCategory = selectedCategory.length === 0 || selectedCategory.includes(menu.category);
+		filterOptions.type = type;
 
-			return matchesType && matchesCategory;
-		});
+		filterOptions.availability = availability;
 
-		setFilteredMenus(filteredData);
+		filterOptions.category = selectedCategory.map((category) => category).join(',');
+
+		setFilterOpt(filterOptions);
+		void refetch();
 		setIsPopoverOpen(false);
 	};
 
 	const resetFilter = (): void => {
 		setType(null);
+		setAvailability(null);
 		setSortBy(SORT_OPTIONS[0].value);
 		setSelectedCategory([]);
 		setRating([4]);
 	};
-
-	useEffect(() => {
-		if (menStatus === 'success') {
-			setFilteredMenus(menus);
-		}
-	}, [menStatus, menus]);
 
 	return (
 		<Card noBorder>
@@ -91,6 +109,8 @@ export const Menus = (): React.JSX.Element => {
 										sortBy={sortBy}
 										type={type}
 										setType={setType}
+										availability={availability}
+										setAvailability={setAvailability}
 										rating={rating}
 										setRating={setRating}
 									/>
@@ -122,7 +142,53 @@ export const Menus = (): React.JSX.Element => {
 				</div>
 			</CardHeader>
 			<CardContent>
-				{menStatus === 'loading' && (
+				{status !== 'pending' && filteredMenus.length > 0 && (
+					<>
+						<AnimatePresence>
+							<div className='hidden lg:grid lg:grid-cols-4 gap-6'>
+								{filteredMenus.map((item, index) => (
+									<motion.div
+										key={item.id + index}
+										initial={{ opacity: 0, y: 20 }}
+										animate={{ opacity: 1, y: 0 }}
+										exit={{ opacity: 0, y: 20 }}
+										whileHover={{ scale: 1.02 }}
+										className='cursor-pointer'
+										onClick={() => {
+											router.push(`/${item.id}`);
+										}}
+									>
+										<MenuCard menu={item} />
+									</motion.div>
+								))}
+							</div>
+						</AnimatePresence>
+
+						<AnimatePresence>
+							<div className='lg:hidden'>
+								{filteredMenus.map((item, index) => (
+									<motion.div
+										key={item.id + index}
+										initial={{ opacity: 0, y: 20 }}
+										animate={{ opacity: 1, y: 0 }}
+										exit={{ opacity: 0, y: 20 }}
+										whileHover={{ scale: 1.02 }}
+										className='cursor-pointer'
+										onClick={() => {
+											router.push(`/${item.id}`);
+										}}
+									>
+										<MenuListItem menu={item} />
+									</motion.div>
+								))}
+							</div>
+						</AnimatePresence>
+
+						<div ref={ref} className='h-1' />
+					</>
+				)}
+
+				{(isFetchingNextPage || status === 'pending') && (
 					<div className='grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-6 p-4'>
 						{[...Array(8)].map((_, index) => (
 							<div key={index} className='hidden lg:block'>
@@ -137,44 +203,7 @@ export const Menus = (): React.JSX.Element => {
 					</div>
 				)}
 
-				{menStatus === 'success' && filteredMenus.length > 0 && (
-					<>
-						<div className='hidden lg:grid lg:grid-cols-4 gap-6'>
-							{filteredMenus.map((item) => (
-								<motion.div
-									key={item.id}
-									initial={{ opacity: 0, y: 20 }}
-									animate={{ opacity: 1, y: 0 }}
-									whileHover={{ scale: 1.02 }}
-									className='cursor-pointer'
-									onClick={() => {
-										router.push(`/${item.id}`);
-									}}
-								>
-									<MenuCard menu={item} />
-								</motion.div>
-							))}
-						</div>
-						<div className='lg:hidden'>
-							{filteredMenus.map((item) => (
-								<motion.div
-									key={item.id}
-									initial={{ opacity: 0, y: 20 }}
-									animate={{ opacity: 1, y: 0 }}
-									whileHover={{ scale: 1.02 }}
-									className='cursor-pointer'
-									onClick={() => {
-										router.push(`/${item.id}`);
-									}}
-								>
-									<MenuListItem menu={item} />
-								</motion.div>
-							))}
-						</div>
-					</>
-				)}
-
-				{menStatus === 'success' && filteredMenus.length === 0 && <p className='text-center text-gray-500 mt-4'>No Menus available</p>}
+				{status === 'success' && filteredMenus.length === 0 && <p className='text-center text-gray-500 mt-4'>No Menus available</p>}
 			</CardContent>
 		</Card>
 	);
