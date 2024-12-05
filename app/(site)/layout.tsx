@@ -18,7 +18,7 @@ const HomeLayout = ({
 	const menDetailStatus = useRecoilValue(menuDetailStatus);
 	const menuDetail = useRecoilValue(menu);
 
-	const isPathWithId = /^\/[a-zA-Z0-9]+$/.test(pathName);
+	const isPathWithId = /^\/[a-zA-Z0-9]+$/.test(pathName) && pathName !== '/cart';
 
 	useGetCategories('cm2dlk2jj0000c3qr6z3fwihs');
 

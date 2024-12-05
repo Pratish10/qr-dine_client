@@ -94,7 +94,7 @@ const MenuPage = ({ params }: MenuPageProps): JSX.Element | null => {
 						</motion.div>
 
 						<div className='lg:sticky lg:top-4'>
-							<PurchaseCard price={menuDetail.amount} availability={menuDetail.availability} />
+							<PurchaseCard menu={menuDetail} />
 						</div>
 					</div>
 				</div>
