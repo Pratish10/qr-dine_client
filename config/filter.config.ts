@@ -8,8 +8,8 @@ export const TABS = [
 export const SORT_OPTIONS = [
 	{ value: 'popular', label: 'Most Popular' },
 	{ value: 'rating-high', label: 'Rating: High to Low' },
-	{ value: 'price-low', label: 'Price: Low to High' },
-	{ value: 'price-high', label: 'Price: High to Low' },
+	{ value: 'asc', label: 'Amount: Low to High' },
+	{ value: 'desc', label: 'Amount: High to Low' },
 ];
 
 export const RATING_STAR = [1, 2, 3, 4, 5];

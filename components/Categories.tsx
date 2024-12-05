@@ -1,11 +1,10 @@
 'use client';
-import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRecoilValue } from 'recoil';
 import { categories, categoryStatus } from '@/recoil/categories/atom';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export const Categories = (): React.JSX.Element => {
+export const Categories = (): JSX.Element => {
 	const categoryList = useRecoilValue(categories);
 	const catStatus = useRecoilValue(categoryStatus);
 

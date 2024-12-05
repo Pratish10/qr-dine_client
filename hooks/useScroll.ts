@@ -8,7 +8,7 @@ const useScroll = (): {
 	const [scrollY, setScrollY] = useState(0);
 
 	useEffect(() => {
-		if (typeof window !== 'undefined') {
+		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
 			const updateScrollPosition = (): void => {
 				setScrollX(window.scrollX);
 				setScrollY(window.scrollY);

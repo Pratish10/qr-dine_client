@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { Card, CardContent } from '@/components/ui/card';
 import { ShoppingCart } from 'lucide-react';
@@ -11,7 +10,7 @@ import Link from 'next/link';
 import { cart } from '@/recoil/cart/atom';
 import CheckoutWizard from '@/components/checkout-wizard';
 
-const Cart = (): React.JSX.Element => {
+const Cart = (): JSX.Element => {
 	const cartItems = useRecoilValue(cart);
 
 	if (cartItems.length === 0) {

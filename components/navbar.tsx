@@ -1,6 +1,6 @@
 'use client';
 import clsx from 'clsx';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { SearchInput } from './search-input';
 import useScroll from '@/hooks/useScroll';
 import { ThemeSelect } from './theme-select';
@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 import APP_PATHS from '@/config/path.config';
 import { motion } from 'framer-motion';
 
-export const Navbar = (): React.JSX.Element => {
+export const Navbar = (): JSX.Element => {
 	const router = useRouter();
 	const size = useScroll();
 	const cartItems = useRecoilValue(cart);
@@ -57,7 +57,7 @@ export const Navbar = (): React.JSX.Element => {
 					</svg>
 					<span className='font-bold hidden sm:block'>QR Dine</span>
 				</Link>
-				<div>
+				<div className='w-[400px]'>
 					<SearchInput />
 				</div>
 				<div className='flex items-center justify-between'>

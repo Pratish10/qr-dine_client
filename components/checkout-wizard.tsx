@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,7 +13,7 @@ import { Label } from '@/components/ui/label';
 import { cart, type CartType } from '@/recoil/cart/atom';
 import { RATING_STAR } from '@/config/filter.config';
 
-const CheckoutWizard = (): React.JSX.Element => {
+const CheckoutWizard = (): JSX.Element => {
 	const [step, setStep] = useState(1);
 	const setCartValue = useSetRecoilState(cart);
 	const cartItems = useRecoilValue(cart);

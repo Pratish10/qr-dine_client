@@ -22,6 +22,15 @@ export interface Menu {
 	ratings?: Rating[];
 	averageRating: number | null;
 }
+export interface MenuSearch {
+	id: string;
+	menuId: string;
+	name: string;
+	type: 'Vegeterian' | 'nonVegeterian';
+	image: string[];
+	category: string;
+	amount: string;
+}
 
 export interface CategoriesType {
 	category: string;

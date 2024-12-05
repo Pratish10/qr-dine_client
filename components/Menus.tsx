@@ -1,12 +1,12 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRecoilState } from 'recoil';
 import { Skeleton } from '@/components/ui/skeleton';
 import { MenuCard } from '@/components/menu-card';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 import { Filters } from './filters';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from './ui/button';
@@ -16,25 +16,37 @@ import clsx from 'clsx';
 import { filters } from '@/recoil/menus/atom';
 import { MenuListItem } from './menu-list-item';
 import { useGetMenus } from '@/hooks/menu/use-get-Menu';
+import { ArrowUp } from 'lucide-react';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
-export const Menus = (): React.JSX.Element => {
-	const { ref, inView } = useInView();
+export const Menus = (): JSX.Element => {
 	const [filterOpt, setFilterOpt] = useRecoilState(filters);
-	const [type, setType] = useState<'Vegeterian' | 'nonVegeterian' | 'Available' | 'notAvailable' | null>(null);
+	const [type, setType] = useState<'Vegeterian' | 'nonVegeterian' | null>(null);
 	const [availability, setAvailability] = useState<'Available' | 'notAvailable' | null>(null);
 	const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
 	const [sortBy, setSortBy] = useState(SORT_OPTIONS[0].value);
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 	const [rating, setRating] = useState<number[]>([4]);
 	const [filteredMenus, setFilteredMenus] = useState<Menu[]>([]);
+	const [showScrollTopButton, setShowScrollTopButton] = useState(false);
 
 	const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = useGetMenus('cm2dlk2jj0000c3qr6z3fwihs', filterOpt as object);
 
-	useEffect(() => {
-		if (inView && hasNextPage) {
-			void fetchNextPage();
+	const onScroll = useCallback(() => {
+		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+			const scrollTop = window.scrollY;
+			const scrollHeight = document.documentElement.scrollHeight;
+			const clientHeight = window.innerHeight;
+
+			if (scrollTop + clientHeight >= scrollHeight - 50 && hasNextPage) {
+				void fetchNextPage();
+			}
+
+			setShowScrollTopButton(scrollTop > 500);
 		}
-	}, [inView, hasNextPage, fetchNextPage]);
+	}, [hasNextPage, fetchNextPage]);
+
+	useScrollToTop({ current: document.documentElement }, onScroll);
 
 	useEffect(() => {
 		if (status === 'success' || !isFetchingNextPage) {
@@ -56,10 +68,9 @@ export const Menus = (): React.JSX.Element => {
 		const filterOptions: any = {};
 
 		filterOptions.type = type;
-
 		filterOptions.availability = availability;
-
 		filterOptions.category = selectedCategory.map((category) => category).join(',');
+		filterOptions.amountSort = sortBy;
 
 		setFilterOpt(filterOptions);
 		void refetch();
@@ -73,6 +84,15 @@ export const Menus = (): React.JSX.Element => {
 		setSelectedCategory([]);
 		setRating([4]);
 	};
+
+	const scrollToTop = useCallback(() => {
+		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+			window.scrollTo({
+				top: 0,
+				behavior: 'smooth',
+			});
+		}
+	}, []);
 
 	return (
 		<Card noBorder>
@@ -174,7 +194,7 @@ export const Menus = (): React.JSX.Element => {
 							</div>
 						</AnimatePresence>
 
-						<div ref={ref} className='h-1' />
+						<div className='h-1' />
 					</>
 				)}
 
@@ -195,6 +215,26 @@ export const Menus = (): React.JSX.Element => {
 
 				{status === 'success' && filteredMenus.length === 0 && <p className='text-center text-gray-500 mt-4'>No Menus available</p>}
 			</CardContent>
+
+			<AnimatePresence>
+				{showScrollTopButton && (
+					<motion.div
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: 20 }}
+						className='fixed bottom-8 right-8 z-50'
+					>
+						<Button
+							size='icon'
+							variant='outline'
+							onClick={scrollToTop}
+							className='rounded-full shadow-md hover:shadow-lg transition-shadow'
+						>
+							<ArrowUp className='h-4 w-4' />
+						</Button>
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</Card>
 	);
 };

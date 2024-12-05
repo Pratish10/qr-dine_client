@@ -4,26 +4,11 @@ import { Poppins } from 'next/font/google';
 import { Providers } from '@/app/providers';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from '@/components/ui/sonner';
+import { siteConfig } from '@/config/site-config';
 
 const poppins = Poppins({ subsets: ['latin'], weight: '400' });
 
-export const metadata: Metadata = {
-	title: 'QR Dine | Browse Menus & Order Seamlessly',
-	description:
-		'Discover restaurant menus with ease using QR Dine. View digital menus, explore delicious dishes, and order directly from your table for a seamless dining experience.',
-	keywords: [
-		'digital restaurant menu',
-		'QR code menu',
-		'contactless dining',
-		'food ordering system',
-		'restaurant menu viewer',
-		'seamless dining experience',
-	],
-	authors: [{ name: 'QR Dine Team' }],
-	creator: 'QR Dine',
-	publisher: 'QR Dine',
-	robots: 'index, follow',
-};
+export const metadata: Metadata = siteConfig;
 
 export default function RootLayout({
 	children,
@@ -37,15 +22,7 @@ export default function RootLayout({
 				<link rel='apple-touch-icon' href='/app/logo.svg' />
 			</head>
 			<body className={`${poppins.className} antialiased`}>
-				<NextTopLoader
-					color='#17a34a'
-					initialPosition={0.08}
-					crawlSpeed={200}
-					height={3}
-					easing='ease'
-					speed={200}
-					shadow='0 0 10px #17a34a,0 0 5px #17a34a'
-				/>
+				<NextTopLoader color='#17a34a' height={3} showSpinner={false} />
 				<Providers>
 					{children}
 					<Toaster closeButton richColors position='top-right' />

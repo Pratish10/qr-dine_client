@@ -1,5 +1,4 @@
 import { type Menu } from '@/types/data.types';
-import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from './ui/button';
@@ -12,7 +11,7 @@ interface MenuCardProps {
 	menu: Menu;
 }
 
-export const MenuCard = ({ menu }: MenuCardProps): React.JSX.Element => {
+export const MenuCard = ({ menu }: MenuCardProps): JSX.Element => {
 	const { onOpen } = useDrawerController();
 
 	const truncatedDescription = menu.description.length > 25 ? `${menu.description.slice(0, 25)}...` : menu.description;

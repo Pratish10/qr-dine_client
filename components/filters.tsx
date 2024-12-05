@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { categories } from '@/recoil/categories/atom';
 import { cn } from '@/lib/utils';
@@ -17,8 +17,8 @@ interface FilterPropTypes {
 	setSelectedCategory: React.Dispatch<React.SetStateAction<string[]>>;
 	sortBy: string;
 	setSortBy: React.Dispatch<React.SetStateAction<string>>;
-	type: 'Vegeterian' | 'nonVegeterian' | 'Available' | 'notAvailable' | null;
-	setType: React.Dispatch<React.SetStateAction<'Vegeterian' | 'nonVegeterian' | 'Available' | 'notAvailable' | null>>;
+	type: 'Vegeterian' | 'nonVegeterian' | null;
+	setType: React.Dispatch<React.SetStateAction<'Vegeterian' | 'nonVegeterian' | null>>;
 	availability: 'Available' | 'notAvailable' | null;
 	setAvailability: React.Dispatch<React.SetStateAction<'Available' | 'notAvailable' | null>>;
 	rating: number[];
@@ -36,7 +36,7 @@ export const Filters = ({
 	setRating,
 	availability,
 	setAvailability,
-}: FilterPropTypes): React.JSX.Element => {
+}: FilterPropTypes): JSX.Element => {
 	const categoryList = useRecoilValue(categories);
 	const [activeTab, setActiveTab] = useState(TABS[0].value);
 

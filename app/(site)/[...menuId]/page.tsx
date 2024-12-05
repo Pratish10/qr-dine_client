@@ -15,7 +15,7 @@ interface MenuPageProps {
 	params: { menuId: string };
 }
 
-const MenuPage = ({ params }: MenuPageProps): JSX.Element => {
+const MenuPage = ({ params }: MenuPageProps): JSX.Element | null => {
 	useGetMenu(params.menuId ?? '');
 	const menDetailStatus = useRecoilValue(menuDetailStatus);
 	const menuDetail = useRecoilValue(menu);
@@ -42,7 +42,7 @@ const MenuPage = ({ params }: MenuPageProps): JSX.Element => {
 	}
 
 	if (menuDetail === null) {
-		return <>Null</>;
+		return null;
 	}
 
 	return (
