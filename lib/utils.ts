@@ -9,7 +9,6 @@ export function getDomain(): string | undefined {
 	if (process.env.NODE_ENV === 'production') {
 		return process.env.NEXT_PUBLIC_ADMIN_URL;
 	} else {
-		return process.env.NEXT_PUBLIC_ADMIN_URL;
-		// return 'http://localhost:3000';
+		return 'http://localhost:3000';
 	}
 }
