@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
