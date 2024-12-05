@@ -102,7 +102,7 @@ const CheckoutWizard = (): JSX.Element => {
 
 	return (
 		<div className='container mx-auto px-4 py-6'>
-			<h1 className='text-2xl font-semibold mb-6'>{step === 1 ? 'Checkout' : 'User Information and Feedback'}</h1>
+			<h1 className='text-2xl font-semibold mb-6 dark:text-slate-300'>{step === 1 ? 'Checkout' : 'User Information and Feedback'}</h1>
 			<div className='grid lg:grid-cols-3 gap-6'>
 				<div className='lg:col-span-2'>
 					<AnimatePresence mode='wait'>
@@ -139,22 +139,22 @@ const CheckoutWizard = (): JSX.Element => {
 								<Card className='mb-4'>
 									<CardContent className='pt-4'>
 										<form onSubmit={handleSubmit} className='space-y-4'>
-											<div>
+											<div className='dark:text-slate-300'>
 												<Label htmlFor='name'>Your Name</Label>
 												<Input type='text' id='name' value={name} onChange={handleNameChange} required />
 												{emailError && <span className='text-sm text-red-500'>{nameError}</span>}
 											</div>
-											<div>
+											<div className='dark:text-slate-300'>
 												<Label htmlFor='email'>Please Enter your Email</Label>
 												<Input type='email' id='email' value={email} onChange={handleEmailChange} required />
 												{emailError && <span className='text-sm text-red-500'>{emailError}</span>}
 												<span className='text-sm text-neutral-400'>Order receipt will be shared over your email</span>
 											</div>
 											<div>
-												<h3 className='text-lg font-medium mb-2'>Please Rate the food</h3>
+												<h3 className='text-lg font-medium mb-2 dark:text-slate-300'>Please Rate the food</h3>
 												{cartItems.map((item) => (
 													<div key={item.id} className='flex items-center justify-between mb-2 text-sm'>
-														<span>{item.name}</span>
+														<span className='dark:text-slate-300'>{item.name}</span>
 														<div className='flex items-center'>
 															{RATING_STAR.map((star) => (
 																<Star
@@ -192,20 +192,20 @@ const CheckoutWizard = (): JSX.Element => {
 					<div className='space-y-4'>
 						<Card>
 							<CardContent className='p-6'>
-								<h3 className='font-medium text-base mb-4'>Order Summary</h3>
+								<h3 className='font-medium text-base mb-4 dark:text-slate-300'>Order Summary</h3>
 								<div className='space-y-3'>
-									<div className='flex justify-between'>
+									<div className='flex justify-between dark:text-slate-300'>
 										<span>Price ({cartItems.length} Items)</span>
 										<span>₹ {totalPrice.toFixed(2)}</span>
 									</div>
 									<div className='h-px bg-border my-2' />
-									<div className='flex justify-between font-medium'>
+									<div className='flex justify-between font-medium dark:text-slate-300'>
 										<span>Total Amount</span>
 										<span>₹{totalPrice.toFixed(2)}</span>
 									</div>
 								</div>
 								{step === 1 ? (
-									<Button className='w-full mt-6' variant='outline' onClick={handleNextStep}>
+									<Button className='w-full mt-6 dark:text-slate-300' variant='outline' onClick={handleNextStep}>
 										Continue to User Info
 									</Button>
 								) : (
@@ -215,7 +215,7 @@ const CheckoutWizard = (): JSX.Element => {
 										</Button>
 										<div className='flex justify-center mt-4'>
 											<span
-												className='flex items-center hover:underline cursor-pointer text-sm text-muted-foreground'
+												className='flex items-center hover:underline cursor-pointer text-sm text-muted-foreground dark:text-slate-300'
 												onClick={() => {
 													setStep(1);
 												}}
@@ -230,7 +230,7 @@ const CheckoutWizard = (): JSX.Element => {
 						</Card>
 						<div className='flex items-start gap-3 text-sm text-muted-foreground'>
 							<ShieldCheck className='h-5 w-5 flex-shrink-0 mt-0.5' />
-							<p>
+							<p className='dark:text-slate-300'>
 								Safe and Secure Payments. Easy returns. <br />
 								100% Authentic products.
 							</p>

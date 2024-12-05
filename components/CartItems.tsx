@@ -27,14 +27,14 @@ export const CartItems = ({ cartItem, onRemove, onUpdateQuantity }: CartItemProp
 				<Image src={cartItem.image[0]} alt={cartItem.name} width={50} height={50} className='w-full h-full object-cover' />
 			</div>
 			<div className='flex-1 min-w-0 mt-2 sm:mt-0'>
-				<h3 className='font-medium text-sm sm:text-base text-left truncate'>{cartItem.name}</h3>
-				<p className='text-xs sm:text-sm text-muted-foreground text-left truncate'>{cartItem.description}</p>
-				<div className='text-sm text-muted-foreground mt-1'>
+				<h3 className='font-medium text-sm sm:text-base text-left truncate dark:text-slate-300'>{cartItem.name}</h3>
+				<p className='text-xs sm:text-sm text-muted-foreground text-left truncate dark:text-slate-300'>{cartItem.description}</p>
+				<div className='text-sm text-muted-foreground mt-1 dark:text-slate-300'>
 					<span>₹{cartItem.amount}</span> x {cartItem.quantity} ={' '}
 					<span className='font-medium text-foreground'>₹{cartItem.calculatedAmount}</span>
 				</div>
 				<div className='flex flex-col sm:flex-row sm:items-center sm:justify-between mt-2 gap-2'>
-					<div className='flex items-center'>
+					<div className='flex items-center dark:text-slate-300'>
 						<Button
 							variant='outline'
 							size='icon'
@@ -56,13 +56,13 @@ export const CartItems = ({ cartItem, onRemove, onUpdateQuantity }: CartItemProp
 						>
 							<Plus className='h-3 w-3 sm:h-4 sm:w-4' />
 						</Button>
-						<div className='ml-4 sm:ml-8'>
+						<div className='ml-4 sm:ml-8 dark:text-slate-300'>
 							<StarRating rating={rating} />
 						</div>
 					</div>
 
 					<div className='flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2 mt-2 sm:mt-0'>
-						<span className='font-medium text-sm sm:text-base'>₹{cartItem.calculatedAmount}</span>
+						<span className='font-medium text-sm sm:text-base dark:text-slate-300'>₹{cartItem.calculatedAmount}</span>
 						<Button
 							variant='ghost'
 							size='icon'

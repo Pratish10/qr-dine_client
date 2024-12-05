@@ -96,7 +96,7 @@ export const Menus = (): JSX.Element => {
 	return (
 		<Card noBorder>
 			<CardHeader className='flex flex-col lg:flex-row items-start lg:items-center justify-between p-4'>
-				<CardTitle className='text-lg font-semibold mb-2 lg:mb-0'>Menus</CardTitle>
+				<CardTitle className='text-lg font-semibold mb-2 lg:mb-0 dark:text-slate-200'>Menus</CardTitle>
 
 				<div className='flex items-center space-x-4 w-full lg:w-auto'>
 					<Dialog onOpenChange={setIsPopoverOpen} open={isPopoverOpen}>
@@ -108,7 +108,7 @@ export const Menus = (): JSX.Element => {
 									'disabled:pointer-events-none disabled:opacity-50',
 									'[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
 									'border border-input bg-background hover:bg-accent hover:text-accent-foreground p-2',
-									'w-full lg:w-auto'
+									'w-full lg:w-auto dark:text-slate-300'
 								)}
 							>
 								Filters
@@ -116,7 +116,7 @@ export const Menus = (): JSX.Element => {
 						</DialogTrigger>
 						<DialogContent className='w-full lg:max-w-md'>
 							<DialogHeader>
-								<DialogTitle>Filters</DialogTitle>
+								<DialogTitle className='dark:text-slate-300'>Filters</DialogTitle>
 								<hr />
 								<DialogDescription>
 									<Filters
@@ -137,7 +137,7 @@ export const Menus = (): JSX.Element => {
 							<DialogFooter className='flex flex-col lg:flex-row justify-between items-center w-full'>
 								<Button
 									size='sm'
-									className='w-full lg:w-auto mb-2 lg:mb-0'
+									className='w-full lg:w-auto mb-2 lg:mb-0 dark:text-slate-300'
 									variant='destructive'
 									onClick={() => {
 										setIsPopoverOpen(false);
@@ -146,7 +146,7 @@ export const Menus = (): JSX.Element => {
 									Cancel
 								</Button>
 								<div className='flex flex-col lg:flex-row gap-2 w-full lg:w-auto'>
-									<Button size='sm' variant='outline' onClick={resetFilter} className='w-full lg:w-auto'>
+									<Button size='sm' variant='outline' onClick={resetFilter} className='w-full lg:w-auto dark:text-slate-300'>
 										Reset Filter
 									</Button>
 									<Button size='sm' variant='green' onClick={applyFilter} className='w-full lg:w-auto'>

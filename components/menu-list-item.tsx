@@ -32,15 +32,15 @@ export const MenuListItem: React.FC<MenuListItemProps> = ({ menu }) => {
 							Not Available
 						</Badge>
 					)}
-					<h3 className='font-semibold text-xl text-gray-800 dark:text-gray-100 mt-2'>{menu.name}</h3>
-					<p className='text-sm text-gray-600 mt-1 dark:text-gray-200 truncate'>{truncatedDescription}</p>
-					<p className='text-xs text-gray-400 dark:text-gray-400 mt-1'>{menu.category}</p>
+					<h3 className='font-semibold text-xl text-gray-800 dark:text-slate-300 mt-2'>{menu.name}</h3>
+					<p className='text-sm text-gray-600 mt-1 dark:text-slate-400 truncate'>{truncatedDescription}</p>
+					<p className='text-xs text-gray-400 dark:text-slate-400 mt-1'>{menu.category}</p>
 					<p className={`text-xs mt-1 ${menu.type === 'Vegeterian' ? 'text-green-500' : 'text-red-500'}`}>
 						{menu.type === 'Vegeterian' ? 'Vegeterian' : 'Non-Vegeterian'}
 					</p>
 					<div className='flex items-center mt-1'>
 						<StarRating rating={rating} />
-						<span className='ml-2 text-sm text-gray-600 dark:text-gray-200'>₹{menu.amount}</span>
+						<span className='ml-2 text-sm text-gray-600 dark:text-slate-300'>₹{menu.amount}</span>
 					</div>
 				</div>
 

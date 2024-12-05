@@ -19,15 +19,20 @@ const Cart = (): JSX.Element => {
 				initial={{ opacity: 0, y: -10 }}
 				animate={{ opacity: 1, y: 0 }}
 				exit={{ opacity: 0, y: 10 }}
-				className='flex items-center justify-center bg-green-50 p-4 shadow-lg min-h-[70vh]'
+				className='flex items-center justify-center bg-green-50 dark:bg-green-950 p-4 shadow-lg min-h-[70vh]'
 			>
-				<Card className='bg-white p-8 text-center w-full max-w-md'>
+				<Card className='bg-white dark:bg-gray-800 p-8 text-center w-full max-w-md'>
 					<CardContent>
-						<ShoppingCart className='w-16 h-16 mx-auto mb-4 text-green-500' />
-						<h2 className='text-2xl font-bold text-green-800 mb-2'>Your Cart is Empty</h2>
-						<p className='text-green-700 mb-3'>Looks like you haven&apos;t added anything yet!</p>
+						<ShoppingCart className='w-16 h-16 mx-auto mb-4 text-green-500 dark:text-green-400' />
+						<h2 className='text-2xl font-bold text-green-800 dark:text-green-200 mb-2'>Your Cart is Empty</h2>
+						<p className='text-green-700 dark:text-green-300 mb-3'>Looks like you haven&apos;t added anything yet!</p>
 						<Link href={APP_PATHS.HOME}>
-							<Button variant='green'>Shop Now</Button>
+							<Button
+								variant='default'
+								className='bg-green-500 hover:bg-green-600 text-white dark:bg-green-600 dark:hover:bg-green-700'
+							>
+								Shop Now
+							</Button>
 						</Link>
 					</CardContent>
 				</Card>

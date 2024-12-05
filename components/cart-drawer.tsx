@@ -58,8 +58,8 @@ export const CartDrawer = (): JSX.Element | null => {
 		<Drawer open={isOpen} onOpenChange={onClose}>
 			<DrawerContent>
 				<DrawerHeader className='text-left'>
-					<DrawerTitle className='text-2xl font-bold'>{data.name}</DrawerTitle>
-					<DrawerDescription>{data.description}</DrawerDescription>
+					<DrawerTitle className='text-2xl font-bold dark:text-slate-300'>{data.name}</DrawerTitle>
+					<DrawerDescription className='dark:text-slate-300'>{data.description}</DrawerDescription>
 				</DrawerHeader>
 				<div className='p-4 pb-0'>
 					<AnimatePresence mode='wait'>
@@ -85,11 +85,11 @@ export const CartDrawer = (): JSX.Element | null => {
 									<p className={`text-xs mt-1 ${data.type === 'Vegeterian' ? 'text-green-500' : 'text-red-500'}`}>
 										{data.type === 'Vegeterian' ? 'Vegeterian' : 'Non-Vegeterian'}
 									</p>
-									<span className='text-2xl font-bold'>₹{data.amount}</span>
+									<span className='text-2xl font-bold dark:text-slate-300'>₹{data.amount}</span>
 								</div>
 								<div className='flex items-center space-x-2'>
 									<Star className='w-5 h-5 text-yellow-400 fill-yellow-400' />
-									<span>{data.averageRating ?? 'No ratings yet'}</span>
+									<span className='dark:text-slate-300'>{data.averageRating ?? 'No ratings yet'}</span>
 								</div>
 								<div>
 									<h3 className='text-sm font-medium text-gray-900'>Category</h3>
@@ -127,7 +127,9 @@ export const CartDrawer = (): JSX.Element | null => {
 						<ShoppingCart className='mr-2 h-4 w-4' /> Add to Cart - ₹{amount}
 					</Button>
 					<DrawerClose asChild>
-						<Button variant='outline'>Cancel</Button>
+						<Button variant='outline' className='dark:text-slate-300'>
+							Cancel
+						</Button>
 					</DrawerClose>
 				</DrawerFooter>
 			</DrawerContent>

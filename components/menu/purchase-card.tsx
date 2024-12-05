@@ -11,8 +11,8 @@ interface PurchaseCardProps {
 export function PurchaseCard({ menu }: PurchaseCardProps): JSX.Element {
 	const { onOpen } = useDrawerController();
 	return (
-		<Card className='p-6 space-y-6 sticky top-6'>
-			<div className='space-y-2'>
+		<Card className='p-6 space-y-6 sticky top-6 '>
+			<div className='space-y-2 dark:text-slate-300'>
 				<p className='text-sm text-muted-foreground'>Price</p>
 				<div className='flex items-baseline gap-1'>
 					<span className='text-3xl font-bold'>₹{menu.amount}</span>
@@ -20,7 +20,7 @@ export function PurchaseCard({ menu }: PurchaseCardProps): JSX.Element {
 			</div>
 
 			{menu.availability === 'Available' && (
-				<div className='space-y-4'>
+				<div className='space-y-4 dark:text-slate-300'>
 					<div className='space-y-2'>
 						<Button
 							className='w-full'
@@ -37,7 +37,9 @@ export function PurchaseCard({ menu }: PurchaseCardProps): JSX.Element {
 				</div>
 			)}
 
-			{menu.availability !== 'Available' && <div className='text-destructive font-medium text-center'>Currently Unavailable</div>}
+			{menu.availability !== 'Available' && (
+				<div className='text-destructive font-medium text-center dark:text-slate-300'>Currently Unavailable</div>
+			)}
 		</Card>
 	);
 }

@@ -2,14 +2,13 @@
 import { useGetMenu } from '@/hooks/menu/use-get-Menu';
 import { menu, menuDetailStatus } from '@/recoil/menus/atom';
 import { useRecoilValue } from 'recoil';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { MenuGallery } from '@/components/menu/menu-gallery';
 import { MenuInfo } from '@/components/menu/menu-info';
 import { PurchaseCard } from '@/components/menu/purchase-card';
 import { motion } from 'framer-motion';
 import { fadeIn, slideIn, staggerContainer } from '@/config/animations.config';
 import { Separator } from '@/components/ui/separator';
+import { MenuSkeleton } from '@/components/menu-skeleton';
 
 interface MenuPageProps {
 	params: { menuId: string };
@@ -21,24 +20,7 @@ const MenuPage = ({ params }: MenuPageProps): JSX.Element | null => {
 	const menuDetail = useRecoilValue(menu);
 
 	if (menDetailStatus === 'loading') {
-		return (
-			<div className='container max-w-4xl mx-auto p-6'>
-				<Card className='w-full'>
-					<CardHeader>
-						<Skeleton className='h-[300px] w-full rounded-lg' />
-					</CardHeader>
-					<CardContent className='space-y-4'>
-						<Skeleton className='h-8 w-3/4' />
-						<Skeleton className='h-4 w-1/4' />
-						<Skeleton className='h-20 w-full' />
-						<div className='flex gap-4'>
-							<Skeleton className='h-10 w-24' />
-							<Skeleton className='h-10 w-32' />
-						</div>
-					</CardContent>
-				</Card>
-			</div>
-		);
+		return <MenuSkeleton />;
 	}
 
 	if (menuDetail === null) {
@@ -70,11 +52,8 @@ const MenuPage = ({ params }: MenuPageProps): JSX.Element | null => {
 							menuId={menuDetail.menuId}
 						/>
 
-						<motion.div variants={staggerContainer} initial='hidden' animate='visible' className='space-y-6'>
-							<motion.h2
-								variants={fadeIn}
-								className='text-2xl font-semibold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent'
-							>
+						<motion.div variants={staggerContainer} initial='hidden' animate='visible' className='space-y-6 dark:text-slate-300'>
+							<motion.h2 variants={fadeIn} className='text-2xl font-semibold bg-gradient-to-r from-primary to-primary/70 bg-clip-text'>
 								About this dish
 							</motion.h2>
 							<Separator className='my-6' />

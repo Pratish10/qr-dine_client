@@ -1,7 +1,7 @@
 'use client';
 import { Navbar } from '@/components/navbar';
 import { useGetCategories } from '@/hooks/categories/use-get-category';
-import { DrawerProvider } from '../DrawerProivder';
+import { DrawerProvider } from '../DrawerProvider';
 import { usePathname } from 'next/navigation';
 import { useRecoilValue } from 'recoil';
 import { menu, menuDetailStatus } from '@/recoil/menus/atom';
@@ -28,7 +28,7 @@ const HomeLayout = ({
 			<DrawerProvider />
 			<div className='pt-14'>
 				{isPathWithId && (
-					<Breadcrumb>
+					<Breadcrumb className='dark:text-slate-100'>
 						<BreadcrumbList>
 							<BreadcrumbItem>
 								<BreadcrumbLink href={APP_PATHS.HOME}>Home</BreadcrumbLink>

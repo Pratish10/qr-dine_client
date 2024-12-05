@@ -21,7 +21,7 @@ export const MenuCard = ({ menu }: MenuCardProps): JSX.Element => {
 
 	return (
 		<motion.div
-			className='rounded-lg shadow-lg hover:shadow-2xl bg-white dark:bg-gray-900 flex flex-col items-start gap-4 w-full sm:w-80 md:w-72 lg:w-80 p-3'
+			className='rounded-lg shadow-lg hover:shadow-2xl bg-white dark:bg-slate-950 flex flex-col items-start gap-4 w-full sm:w-80 md:w-72 lg:w-80 p-3'
 			whileHover={{ y: -5 }}
 			transition={{ duration: 0.2 }}
 		>
@@ -40,13 +40,13 @@ export const MenuCard = ({ menu }: MenuCardProps): JSX.Element => {
 			<div className='w-full'>
 				<div className='flex items-center justify-between'>
 					<div className='flex items-center'>
-						<h2 className='font-semibold text-gray-800 dark:text-gray-100'>{menu.name}</h2>
+						<h2 className='font-semibold text-slate-800 dark:text-slate-300'>{menu.name}</h2>
 					</div>
-					<p className='text-gray-800 dark:text-gray-200'>₹{menu.amount}</p>
+					<p className='text-gray-800 dark:text-slate-300'>₹{menu.amount}</p>
 				</div>
 				<div className='flex items-center justify-between'>
-					<p className='text-sm text-gray-600 dark:text-gray-200 truncate'>{truncatedDescription}</p>
-					<p className='text-sm text-gray-400 dark:text-gray-400'>{menu.category}</p>
+					<p className='text-sm text-gray-600 dark:text-slate-400 truncate'>{truncatedDescription}</p>
+					<p className='text-sm text-slate-400 dark:text-slate-400'>{menu.category}</p>
 				</div>
 				<div className='mt-2'>
 					<StarRating rating={rating} />

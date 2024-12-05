@@ -69,12 +69,15 @@ export const Filters = ({
 							className={cn(
 								'relative rounded-full transition-all',
 								'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
-								activeTab === tab.value && 'dark:bg-white dark:text-black text-white bg-black'
+								activeTab === tab.value && 'dark:bg-gray-200 dark:text-slate-800 text-white bg-black'
 							)}
 						>
 							<motion.div
 								initial='inactive'
-								className={cn('relative z-10 text-black dark:text-white', activeTab === tab.value && 'text-white dark:text-black')}
+								className={cn(
+									'relative z-10 text-black dark:text-slate-300',
+									activeTab === tab.value && 'text-white dark:text-slate-800'
+								)}
 							>
 								{tab.label}
 							</motion.div>
@@ -102,7 +105,7 @@ export const Filters = ({
 									{SORT_OPTIONS.map((option) => (
 										<div key={option.value} className='flex items-center space-x-2'>
 											<RadioGroupItem value={option.value} id={option.value} className='text-black dark:text-white' />
-											<Label htmlFor={option.value} className='text-black dark:text-white'>
+											<Label htmlFor={option.value} className='text-black dark:text-slate-300'>
 												{option.label}
 											</Label>
 										</div>
@@ -121,7 +124,7 @@ export const Filters = ({
 												}}
 												className='text-black dark:text-white'
 											/>
-											<Label className='text-black dark:text-white' htmlFor={category.category}>
+											<Label className='text-black dark:text-slate-300' htmlFor={category.category}>
 												{category.category}
 											</Label>
 										</div>
@@ -130,7 +133,7 @@ export const Filters = ({
 							)}
 							{tab.value === 'rating' && (
 								<div className='space-y-4'>
-									<Label htmlFor='rating-slider' className='text-black dark:text-white'>
+									<Label htmlFor='rating-slider' className='text-black dark:text-slate-300'>
 										Minimum Rating
 									</Label>
 									<Slider
@@ -140,11 +143,11 @@ export const Filters = ({
 										step={1}
 										value={rating}
 										onValueChange={setRating}
-										className='w-full text-black'
+										className='w-full text-black dark:text-slate-300'
 									/>
 									<div className='flex justify-between text-xs'>
 										{RATING_STAR.map((value) => (
-											<span key={value} className='text-black dark:text-white'>
+											<span key={value} className='text-black dark:text-slate-300'>
 												{value}
 											</span>
 										))}
@@ -155,52 +158,52 @@ export const Filters = ({
 								<div className='space-y-4'>
 									<div className='flex items-center space-x-2'>
 										<Checkbox
-											className='text-black dark:text-white'
+											className='text-black dark:text-slate-300'
 											checked={type === 'Vegeterian'}
 											onCheckedChange={() => {
 												setType((prev) => (prev === 'Vegeterian' ? null : 'Vegeterian'));
 											}}
 										/>
-										<Label className='flex items-center text-black dark:text-white'>
+										<Label className='flex items-center text-black dark:text-slate-300'>
 											<Carrot className='mr-2 text-green-400' size={15} />
 											Veg
 										</Label>
 									</div>
 									<div className='flex items-center space-x-2'>
 										<Checkbox
-											className='text-black dark:text-white'
+											className='text-black dark:text-slate-300'
 											checked={type === 'nonVegeterian'}
 											onCheckedChange={() => {
 												setType((prev) => (prev === 'nonVegeterian' ? null : 'nonVegeterian'));
 											}}
 										/>
-										<Label className='flex items-center text-black dark:text-white'>
+										<Label className='flex items-center text-black dark:text-slate-300'>
 											<Drumstick className='mr-2 text-red-400' size={15} />
 											Non Veg
 										</Label>
 									</div>
 									<div className='flex items-center space-x-2'>
 										<Checkbox
-											className='text-black dark:text-white'
+											className='text-black dark:text-slate-300'
 											checked={availability === 'Available'}
 											onCheckedChange={() => {
 												setAvailability((prev) => (prev === 'Available' ? null : 'Available'));
 											}}
 										/>
-										<Label className='flex items-center text-black dark:text-white'>
+										<Label className='flex items-center text-black dark:text-slate-300'>
 											<CheckCircle2 className='mr-2 text-green-400' size={15} />
 											Available
 										</Label>
 									</div>
 									<div className='flex items-center space-x-2'>
 										<Checkbox
-											className='text-black dark:text-white'
+											className='text-black dark:text-slate-300'
 											checked={availability === 'notAvailable'}
 											onCheckedChange={() => {
 												setAvailability((prev) => (prev === 'notAvailable' ? null : 'notAvailable'));
 											}}
 										/>
-										<Label className='flex items-center text-black dark:text-white'>
+										<Label className='flex items-center text-black dark:text-slate-300'>
 											<XCircle className='mr-2 text-red-400' size={15} />
 											Not Available
 										</Label>
