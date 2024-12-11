@@ -15,6 +15,7 @@ export const useGetMenus = (
 		availability?: string;
 		category?: string;
 		rating?: number;
+		amountSort?: string;
 	}
 ): UseInfiniteQueryResult<
 	InfiniteData<
@@ -46,6 +47,7 @@ export const useGetMenus = (
 					...(filters.availability ? { availability: filters.availability } : {}),
 					...(filters.category ? { category: filters.category } : {}),
 					...(filters.rating ? { rating: filters.rating.toString() } : {}),
+					...(filters.amountSort ? { amountSort: filters.amountSort.toString() } : {}),
 				});
 
 				const response = await axios.get(`${url}/api/client/menus?${params.toString()}`);

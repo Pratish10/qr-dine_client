@@ -7,7 +7,6 @@ export const TABS = [
 
 export const SORT_OPTIONS = [
 	{ value: 'popular', label: 'Most Popular' },
-	{ value: 'rating-high', label: 'Rating: High to Low' },
 	{ value: 'asc', label: 'Amount: Low to High' },
 	{ value: 'desc', label: 'Amount: High to Low' },
 ];

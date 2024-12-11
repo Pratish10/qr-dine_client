@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
@@ -25,11 +26,11 @@ export const Menus = (): JSX.Element => {
 	const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
 	const [sortBy, setSortBy] = useState(SORT_OPTIONS[0].value);
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-	const [rating, setRating] = useState<number[]>([4]);
+	const [rating, setRating] = useState<number[]>([1]); // Updated initial state for rating
 	const [filteredMenus, setFilteredMenus] = useState<Menu[]>([]);
 	const [showScrollTopButton, setShowScrollTopButton] = useState(false);
 
-	const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage, refetch } = useGetMenus('cm2dlk2jj0000c3qr6z3fwihs', filterOpt as object);
+	const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage } = useGetMenus('cm2dlk2jj0000c3qr6z3fwihs', filterOpt as object);
 
 	const onScroll = useCallback(() => {
 		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
@@ -66,13 +67,19 @@ export const Menus = (): JSX.Element => {
 	const applyFilter = (): void => {
 		const filterOptions: any = {};
 
-		filterOptions.type = type;
-		filterOptions.availability = availability;
-		filterOptions.category = selectedCategory.map((category) => category).join(',');
-		filterOptions.amountSort = sortBy;
+		if (type) filterOptions.type = type;
+		if (availability) filterOptions.availability = availability;
+		if (selectedCategory.length > 0) filterOptions.category = selectedCategory.join(',');
+		if (sortBy) {
+			if (sortBy === SORT_OPTIONS[0].value) {
+				filterOptions.amountSort = null;
+			} else {
+				filterOptions.amountSort = sortBy;
+			}
+		}
+		if (rating[0] > 1) filterOptions.rating = rating[0];
 
 		setFilterOpt(filterOptions);
-		void refetch();
 		setIsPopoverOpen(false);
 	};
 
@@ -81,7 +88,7 @@ export const Menus = (): JSX.Element => {
 		setAvailability(null);
 		setSortBy(SORT_OPTIONS[0].value);
 		setSelectedCategory([]);
-		setRating([4]);
+		setRating([1]);
 	};
 
 	const scrollToTop = useCallback(() => {
