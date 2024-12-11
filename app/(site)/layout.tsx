@@ -1,27 +1,22 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 'use client';
+
+import React, { useEffect } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useSetRecoilState } from 'recoil';
 import { Navbar } from '@/components/navbar';
 import { useGetCategories } from '@/hooks/categories/use-get-category';
 import { DrawerProvider } from '../DrawerProvider';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { menu, menuDetailStatus } from '@/recoil/menus/atom';
-import { Loader2 } from 'lucide-react';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import APP_PATHS from '@/config/path.config';
-import { useEffect } from 'react';
+import { ScanQRPrompt } from '@/components/ScanQRPrompt';
 import { restaurantId } from '@/recoil/restaurant/atom';
 import { tableId } from '@/recoil/table/atom';
+import { CustomBreadCrumb } from '@/components/CustomBreadCrumb';
+import clsx from 'clsx';
 
-const HomeLayout = ({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>): JSX.Element => {
+const HomeLayout = ({ children }: { children: React.ReactNode }): JSX.Element => {
 	const pathName = usePathname();
 	const searchParams = useSearchParams();
 
-	const menDetailStatus = useRecoilValue(menuDetailStatus);
-	const menuDetail = useRecoilValue(menu);
 	const setRestaurantId = useSetRecoilState(restaurantId);
 	const setTableId = useSetRecoilState(tableId);
 
@@ -29,42 +24,30 @@ const HomeLayout = ({
 	const tabId = searchParams.get('tableId');
 
 	useEffect(() => {
-		if (resId !== null) {
-			setRestaurantId(resId);
-		}
-		if (tabId !== null) {
-			setTableId(tabId);
-		}
-	}, [restaurantId, tabId]);
+		if (resId) setRestaurantId(resId);
+		if (tabId) setTableId(tabId);
+	}, [resId, tabId, setRestaurantId, setTableId]);
 
-	const isPathWithId = /^\/[a-zA-Z0-9]+$/.test(pathName) && pathName !== '/cart';
+	const isMissingParams = resId == null || tabId == null;
 
 	useGetCategories(resId ?? '');
 
+	const shouldShowBreadcrumb = /^\/[a-zA-Z0-9]+$/.test(pathName) && pathName !== '/cart';
+
 	return (
-		<div className='container'>
+		<div className={clsx(!isMissingParams && 'container')}>
 			<Navbar />
 			<DrawerProvider />
-			<div className='pt-14'>
-				{isPathWithId && (
-					<Breadcrumb className='dark:text-slate-100'>
-						<BreadcrumbList>
-							<BreadcrumbItem>
-								<BreadcrumbLink href={APP_PATHS.HOME}>Home</BreadcrumbLink>
-							</BreadcrumbItem>
-							<BreadcrumbSeparator />
-							<BreadcrumbItem>
-								<BreadcrumbLink href={`'/${menuDetail?.id}'`}>
-									{menDetailStatus === 'loading' && <Loader2 className='h-4 w-4 animate-spin' />}
-									{menDetailStatus === 'success' && menuDetail?.name}
-								</BreadcrumbLink>
-							</BreadcrumbItem>
-						</BreadcrumbList>
-					</Breadcrumb>
+			<main className='pt-14'>
+				{isMissingParams ? (
+					<ScanQRPrompt />
+				) : (
+					<>
+						{shouldShowBreadcrumb && <CustomBreadCrumb />}
+						{children}
+					</>
 				)}
-
-				{children}
-			</div>
+			</main>
 		</div>
 	);
 };
