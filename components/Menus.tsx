@@ -3,7 +3,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Skeleton } from '@/components/ui/skeleton';
 import { MenuCard } from '@/components/menu-card';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -18,6 +18,7 @@ import { MenuListItem } from './menu-list-item';
 import { useGetMenus } from '@/hooks/menu/use-get-Menu';
 import { ArrowUp } from 'lucide-react';
 import { useScrollToTop } from '@/hooks/useScrollToTop';
+import { restaurantId } from '@/recoil/restaurant/atom';
 
 export const Menus = (): JSX.Element => {
 	const [filterOpt, setFilterOpt] = useRecoilState(filters);
@@ -26,11 +27,12 @@ export const Menus = (): JSX.Element => {
 	const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
 	const [sortBy, setSortBy] = useState(SORT_OPTIONS[0].value);
 	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-	const [rating, setRating] = useState<number[]>([1]); // Updated initial state for rating
+	const [rating, setRating] = useState<number[]>([1]);
 	const [filteredMenus, setFilteredMenus] = useState<Menu[]>([]);
 	const [showScrollTopButton, setShowScrollTopButton] = useState(false);
+	const resId = useRecoilValue(restaurantId);
 
-	const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage } = useGetMenus('cm2dlk2jj0000c3qr6z3fwihs', filterOpt as object);
+	const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage } = useGetMenus(resId ?? '', filterOpt as object);
 
 	const onScroll = useCallback(() => {
 		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
