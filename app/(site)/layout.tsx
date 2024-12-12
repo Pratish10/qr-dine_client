@@ -14,7 +14,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }): JSX.Element =>
 	const shouldShowBreadcrumb = /^\/[a-zA-Z0-9]+$/.test(pathName) && pathName !== '/cart';
 
 	return (
-		<div className={clsx(isMissingParams && 'container')}>
+		<div className={clsx(!isMissingParams && 'container')}>
 			<Navbar />
 			<DrawerProvider />
 			<main className='pt-14'>
