@@ -6,22 +6,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ShieldCheck, Star, ArrowLeft } from 'lucide-react';
+import { ShieldCheck, ArrowLeft, Loader2 } from 'lucide-react';
 import { CartItems } from '@/components/CartItems';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { cart, type CartType } from '@/recoil/cart/atom';
-import { RATING_STAR } from '@/config/filter.config';
+import { useAddCustomer } from '@/hooks/customers/use-add-customers';
+import { CustomerForm } from './CustomerForm';
 
 const CheckoutWizard = (): JSX.Element => {
 	const [step, setStep] = useState(1);
 	const setCartValue = useSetRecoilState(cart);
 	const cartItems = useRecoilValue(cart);
-	const [email, setEmail] = useState('');
-	const [name, setName] = useState<string>('');
-	const [ratings, setRatings] = useState<Array<{ menuId: string; rating: number }>>([]);
-	const [emailError, setEmailError] = useState<string>('');
-	const [nameError, setNameError] = useState<string>('');
+	const { isPending } = useAddCustomer();
+	const [isPlaceOrder, setIsPlaceOrder] = useState<boolean>(true);
 
 	const handleRemoveItem = (item: CartType): void => {
 		setCartValue((prev) => prev.filter((cartValue) => cartValue.id !== item.id));
@@ -58,46 +54,9 @@ const CheckoutWizard = (): JSX.Element => {
 		setStep(1);
 	};
 
-	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		setEmail(e.target.value);
-		if (e.target.value) {
-			setEmailError('');
-		}
-	};
-	const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		setName(e.target.value);
-		if (e.target.value) {
-			setNameError('');
-		}
-	};
-
-	const handleRatingChange = (menuId: string, rating: number): void => {
-		setRatings((prevRatings) => {
-			const existingRatingIndex = prevRatings.findIndex((rating) => rating.menuId === menuId);
-
-			if (existingRatingIndex !== -1) {
-				const updatedRatings = [...prevRatings];
-				updatedRatings[existingRatingIndex] = { menuId, rating };
-				return updatedRatings;
-			} else {
-				return [...prevRatings, { menuId, rating }];
-			}
-		});
-	};
-
-	const handleSubmit = (e: React.FormEvent): void => {
-		e.preventDefault();
-		if (!email || email.trim() === '') {
-			setEmailError('Email is required');
-			return;
-		}
-		if (!nameError || nameError.trim() === '') {
-			setNameError('Name is required');
-			return;
-		}
-
+	const placeOrder = (e: React.MouseEvent<HTMLButtonElement>): void => {
 		// eslint-disable-next-line no-console
-		console.log('Order submitted', { cartItems, email, ratings, name });
+		console.log(e);
 	};
 
 	return (
@@ -138,50 +97,7 @@ const CheckoutWizard = (): JSX.Element => {
 							>
 								<Card className='mb-4'>
 									<CardContent className='pt-4'>
-										<form onSubmit={handleSubmit} className='space-y-4'>
-											<div className='dark:text-slate-300'>
-												<Label htmlFor='name'>Your Name</Label>
-												<Input type='text' id='name' value={name} onChange={handleNameChange} required />
-												{emailError && <span className='text-sm text-red-500'>{nameError}</span>}
-											</div>
-											<div className='dark:text-slate-300'>
-												<Label htmlFor='email'>Please Enter your Email</Label>
-												<Input type='email' id='email' value={email} onChange={handleEmailChange} required />
-												{emailError && <span className='text-sm text-red-500'>{emailError}</span>}
-												<span className='text-sm text-neutral-400'>Order receipt will be shared over your email</span>
-											</div>
-											<div>
-												<h3 className='text-lg font-medium mb-2 dark:text-slate-300'>Please Rate the food</h3>
-												{cartItems.map((item) => (
-													<div key={item.id} className='flex items-center justify-between mb-2 text-sm'>
-														<span className='dark:text-slate-300'>{item.name}</span>
-														<div className='flex items-center'>
-															{RATING_STAR.map((star) => (
-																<Star
-																	key={star}
-																	size={24}
-																	className={`${
-																		star <= (ratings?.find((r) => r.menuId === item.id)?.rating ?? 0)
-																			? 'text-yellow-400 fill-yellow-400'
-																			: 'text-gray-300'
-																	} cursor-pointer transition-colors duration-150 hover:text-yellow-400`}
-																	onClick={() => {
-																		handleRatingChange(item.id, star);
-																	}}
-																	role='button'
-																	tabIndex={0}
-																	aria-label={`Rate ${star} star${star !== 1 ? 's' : ''}`}
-																	id={item.id !== '' ? `rating-${item.id}-star-${star}` : undefined}
-																/>
-															))}
-														</div>
-													</div>
-												))}
-											</div>
-											<Button type='submit' className='w-full' variant='green'>
-												Submit
-											</Button>
-										</form>
+										<CustomerForm setIsPlaceOrder={setIsPlaceOrder} />
 									</CardContent>
 								</Card>
 							</motion.div>
@@ -210,15 +126,13 @@ const CheckoutWizard = (): JSX.Element => {
 									</Button>
 								) : (
 									<>
-										<Button className='w-full mt-6' variant='green' onClick={handlePreviousStep} disabled>
-											Place Order
+										<Button className='w-full mt-6' variant='green' onClick={placeOrder} disabled={isPlaceOrder}>
+											{isPending ? <Loader2 className='h-6 w-6 animate-spin' /> : 'Place Order'}
 										</Button>
 										<div className='flex justify-center mt-4'>
 											<span
 												className='flex items-center hover:underline cursor-pointer text-sm text-muted-foreground dark:text-slate-300'
-												onClick={() => {
-													setStep(1);
-												}}
+												onClick={handlePreviousStep}
 											>
 												<ArrowLeft className='mr-2 h-4 w-4' />
 												Back to Checkout

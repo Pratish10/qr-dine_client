@@ -41,3 +41,11 @@ export interface CategoriesType {
 	restaurantId: string;
 	updatedAt: Date;
 }
+
+export interface Customer {
+	name: string;
+	email: string;
+	id: string;
+	createdAt: Date;
+	updatedAt: Date;
+}

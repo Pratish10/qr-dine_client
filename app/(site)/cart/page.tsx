@@ -19,7 +19,7 @@ const Cart = (): JSX.Element => {
 				initial={{ opacity: 0, y: -10 }}
 				animate={{ opacity: 1, y: 0 }}
 				exit={{ opacity: 0, y: 10 }}
-				className='flex items-center justify-center bg-green-50 dark:bg-green-950 p-4 shadow-lg min-h-[70vh]'
+				className='flex items-center justify-center bg-green-50 dark:bg-green-950 p-4 shadow-lg min-h-[calc(100vh-56px)]'
 			>
 				<Card className='bg-white dark:bg-gray-800 p-8 text-center w-full max-w-md'>
 					<CardContent>

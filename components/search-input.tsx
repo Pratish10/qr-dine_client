@@ -11,6 +11,9 @@ import { SearchResults } from './search-results';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { useInputFocus } from '@/hooks/useInputFocus';
 import { useRouter } from 'next/navigation';
+import { useRecoilValue } from 'recoil';
+import { restaurantId } from '@/recoil/restaurant/atom';
+import { tableId } from '@/recoil/table/atom';
 
 export const SearchInput = (): JSX.Element => {
 	const [state, setState] = useState({
@@ -25,6 +28,10 @@ export const SearchInput = (): JSX.Element => {
 	const ref = useRef<HTMLInputElement | null>(null);
 	const searchResultsRef = useRef<HTMLDivElement | null>(null);
 	const router = useRouter();
+	const resId = useRecoilValue(restaurantId);
+	const tabId = useRecoilValue(tableId);
+
+	const isMissingParams = resId == null || tabId == null;
 
 	const debouncedSearchTerm = useDebounce(state.searchTerm, 300);
 
@@ -41,24 +48,27 @@ export const SearchInput = (): JSX.Element => {
 
 	useInputFocus(focusHandler);
 
-	const fetchData = useCallback(async (query: string) => {
-		setState((prev) => ({ ...prev, loading: true }));
+	const fetchData = useCallback(
+		async (query: string) => {
+			setState((prev) => ({ ...prev, loading: true }));
 
-		const domain = getDomain();
+			const domain = getDomain();
 
-		try {
-			const response = await axios.get(`${domain}/api/client/menus/search?search=${query}`);
-			const data = response.data?.data;
-			setState((prev) => ({ ...prev, searchedMenus: data, loading: false }));
-		} catch (error) {
-			toast.error('Something went wrong while searching for menus');
-			setState((prev) => ({
-				...prev,
-				searchTerm: '',
-				loading: false,
-			}));
-		}
-	}, []);
+			try {
+				const response = await axios.get(`${domain}/api/client/menus/search?search=${query}&resId=${resId}`);
+				const data = response.data?.data;
+				setState((prev) => ({ ...prev, searchedMenus: data, loading: false }));
+			} catch (error) {
+				toast.error('Something went wrong while searching for menus');
+				setState((prev) => ({
+					...prev,
+					searchTerm: '',
+					loading: false,
+				}));
+			}
+		},
+		[resId, tabId]
+	);
 
 	useEffect(() => {
 		if (debouncedSearchTerm.trim().length > 2) {
@@ -99,6 +109,7 @@ export const SearchInput = (): JSX.Element => {
 				}}
 				title='Search Menus, Categories, or Amounts'
 				ref={ref}
+				disabled={isMissingParams}
 			/>
 			{state.searchTerm.length === 0 && (
 				<code
@@ -117,6 +128,7 @@ export const SearchInput = (): JSX.Element => {
 				searchedMenus={state.searchedMenus}
 				searchTerm={state.searchTerm}
 				onCardClick={handleCardClick}
+				restaurantId={resId}
 			/>
 		</div>
 	);

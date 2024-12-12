@@ -10,13 +10,24 @@ interface SearchedResultsProps {
 	isVisible: boolean;
 	searchedMenus: MenuSearch[] | null;
 	searchTerm: string;
+	restaurantId: string | null;
 	onCardClick: (id: string) => void;
 }
 
-export const SearchResults = ({ loading, searchedMenus, isVisible, searchTerm, onCardClick }: SearchedResultsProps): JSX.Element | null => {
+export const SearchResults = ({
+	loading,
+	searchedMenus,
+	isVisible,
+	searchTerm,
+	onCardClick,
+	restaurantId,
+}: SearchedResultsProps): JSX.Element | null => {
 	if (!isVisible) return null;
 
 	const renderSearchResults = (): JSX.Element | undefined => {
+		if (restaurantId == null) {
+			return <MenuSearchInfo text='Scan the QR Code again' />;
+		}
 		if (searchTerm.length < 3) {
 			return <MenuSearchInfo text='Please enter at least 3 characters to search' />;
 		}
