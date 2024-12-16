@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import { fadeIn, slideIn, staggerContainer } from '@/config/animations.config';
 import { Separator } from '@/components/ui/separator';
 import { MenuSkeleton } from '@/components/menu-skeleton';
+import NotFound from '@/app/not-found';
 
 interface MenuPageProps {
 	params: { menuId: string };
@@ -24,7 +25,7 @@ const MenuPage = ({ params }: MenuPageProps): JSX.Element | null => {
 	}
 
 	if (menuDetail === null) {
-		return null;
+		return <NotFound />;
 	}
 
 	return (

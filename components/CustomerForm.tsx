@@ -5,10 +5,12 @@ import { Label } from './ui/label';
 import { useAddCustomer } from '@/hooks/customers/use-add-customers';
 import { toast } from 'sonner';
 import { cart } from '@/recoil/cart/atom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { RATING_STAR } from '@/config/filter.config';
 import { Loader2, Star } from 'lucide-react';
 import { Button } from './ui/button';
+import { customer } from '@/recoil/customer/atom';
+import { type Customer } from '@/types/data.types';
 
 interface CustomerFormProps {
 	setIsPlaceOrder: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +18,7 @@ interface CustomerFormProps {
 
 export const CustomerForm = ({ setIsPlaceOrder }: CustomerFormProps): JSX.Element => {
 	const cartItems = useRecoilValue(cart);
+	const setCustomer = useSetRecoilState(customer);
 	const [email, setEmail] = useState('');
 	const [name, setName] = useState<string>('');
 	const [ratings, setRatings] = useState<Array<{ menuId: string; rating: number }>>([]);
@@ -66,6 +69,7 @@ export const CustomerForm = ({ setIsPlaceOrder }: CustomerFormProps): JSX.Elemen
 			{
 				onSuccess: (data) => {
 					if (data?.status) {
+						setCustomer(data.data?.customer as Customer);
 						setIsPlaceOrder(false);
 						toast.success(data.message);
 					} else {
