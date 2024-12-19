@@ -1,39 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# QR Dine - Client Application
 
-## Getting Started
+## Overview
 
-First, run the development server:
+**QR Dine - Client** is the customer-facing side of the QR Dine platform, where customers can seamlessly scan QR codes at restaurant tables to view
+menus, place orders, and interact with restaurant services directly from their mobile devices.
+
+This client application is designed to enhance the customer dining experience by allowing them to easily browse menus and order food without the need
+to wait for a server.
+
+## Features
+
+### For Customers
+
+- **QR Code Scanning**: Customers can scan a unique QR code placed on the table to access the restaurant’s menu.
+- **Browse the Menu**: View the restaurant’s offerings, including categories like appetizers, main courses, desserts, etc.
+- **Place Orders**: Add items to the cart and submit the order directly from the mobile device.
+- **Real-Time Order Confirmation**: Receive real-time updates on the status of the order placed.
+
+## Installation
+
+### Prerequisites
+
+- **Node.js** (for Next.js application)
+- **Admin Application**: The client application requires the admin application to be running locally, as it pulls data from the admin's backend (such
+  as menus, tables, and orders).
+
+> [!NOTE]  
+> This project uses [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable) only as a package manager.
+
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Pratish10/qr-dine.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Navigate to the project directory:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd qr-dine
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load
-[Geist](https://vercel.com/font), a new font family for Vercel.
+3. Create a .env file:
 
-## Learn More
+```bash
+Copy `.env.example` and rename it to `.env`.
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Install dependencies:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+yarn install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. Set up the backend (Admin Application):
 
-## Deploy on Vercel
+Since the client application fetches menu and table data from the admin backend, you need to run the admin application locally.
 
-The easiest way to deploy your Next.js app is to use the
-[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
+Follow the instructions from the [Admin Application README](https://github.com/Pratish10/qr-dine?tab=readme-ov-file#readme) to run the admin
+application locally. Ensure the admin application is running at http://localhost:3000 (or update the .env file in the client app if it's running on a
+different port).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+6. Start the development server:
+
+```bash
+yarn dev
+```
