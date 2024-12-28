@@ -48,6 +48,7 @@ export const CartDrawer = (): JSX.Element | null => {
 			return [...currentCart, { ...menu, quantity, calculatedAmount: String(amount) }];
 		});
 		onClose();
+		setQuantity(1);
 	};
 
 	if (!data) {

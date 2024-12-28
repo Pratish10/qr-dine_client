@@ -49,3 +49,47 @@ export interface Customer {
 	createdAt: Date;
 	updatedAt: Date;
 }
+
+export interface FormattedOrderData {
+	customer: {
+		id: string;
+		name: string;
+		email: string;
+	};
+	cartItems: Array<{
+		id: string;
+		name: string;
+		menuId: string;
+		quantity: number;
+		calculatedAmount: string;
+	}>;
+	restaurantId: string | undefined;
+	tableId: string | undefined;
+}
+
+export interface MutationResponse {
+	url?: string;
+}
+
+export interface Order {
+	id: string;
+	restaurantId: string;
+	isPaid: boolean;
+	orderNumber: string;
+	orderDate: Date;
+	updatedAt: Date;
+	tableId?: string | null;
+	customerId?: string | null;
+	customer?: Customer | null;
+	orderItems: OrderItem[];
+}
+
+export interface OrderItem {
+	id: string;
+	orderId: string;
+	menuId: string;
+	quantity: number;
+	unitPrice: number;
+	totalPrice: number;
+	order: Order;
+}

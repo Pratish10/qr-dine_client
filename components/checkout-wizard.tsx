@@ -10,6 +10,12 @@ import { CartItems } from '@/components/CartItems';
 import { cart, type CartType } from '@/recoil/cart/atom';
 import { useAddCustomer } from '@/hooks/customers/use-add-customers';
 import { CustomerForm } from './CustomerForm';
+import { customer } from '@/recoil/customer/atom';
+import { useInitializeIds } from '@/hooks/useInitializeIds';
+import { type FormattedOrderData } from '@/types/data.types';
+import { usePlaceOrder } from '@/hooks/Orders/use-place-order';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const CheckoutWizard = (): JSX.Element => {
 	const [step, setStep] = useState(1);
@@ -17,6 +23,11 @@ const CheckoutWizard = (): JSX.Element => {
 	const cartItems = useRecoilValue(cart);
 	const { isPending } = useAddCustomer();
 	const [isPlaceOrder, setIsPlaceOrder] = useState<boolean>(true);
+	const customerData = useRecoilValue(customer);
+	const { finalResId, finalTabId } = useInitializeIds();
+	const { mutate } = usePlaceOrder();
+	const router = useRouter();
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const handleRemoveItem = (item: CartType): void => {
 		setCartValue((prev) => prev.filter((cartValue) => cartValue.id !== item.id));
@@ -53,9 +64,45 @@ const CheckoutWizard = (): JSX.Element => {
 		setStep(1);
 	};
 
-	const placeOrder = (e: React.MouseEvent<HTMLButtonElement>): void => {
-		// eslint-disable-next-line no-console
-		console.log(e);
+	const placeOrder = (): void => {
+		setIsLoading(true); // Start loader
+		const formattedData: FormattedOrderData = {
+			customer: {
+				id: customerData?.id ?? '',
+				name: customerData?.name ?? '',
+				email: customerData?.email ?? '',
+			},
+			cartItems: cartItems.map((item) => ({
+				id: item?.id,
+				menuId: item.menuId,
+				quantity: item.quantity,
+				calculatedAmount: item.calculatedAmount,
+				name: item.name,
+			})),
+			restaurantId: finalResId ?? '',
+			tableId: finalTabId ?? '',
+		};
+
+		mutate(formattedData, {
+			onSuccess: (data) => {
+				setIsLoading(false); // Stop loader
+				if (data?.status) {
+					if (data.data?.url != null) {
+						router.push(data.data?.url);
+					} else {
+						throw new Error('Something Went Wrong');
+					}
+				} else {
+					toast.error(data.message);
+				}
+			},
+
+			onError: (error: any) => {
+				setIsLoading(false);
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+				toast.error(error.response.data.message ?? error.message);
+			},
+		});
 	};
 
 	return (
@@ -126,7 +173,7 @@ const CheckoutWizard = (): JSX.Element => {
 								) : (
 									<>
 										<Button className='w-full mt-6' variant='green' onClick={placeOrder} disabled={isPlaceOrder}>
-											{isPending ? <Loader2 className='h-6 w-6 animate-spin' /> : 'Place Order'}
+											{isPending || isLoading ? <Loader2 className='h-6 w-6 animate-spin' /> : 'Place Order'}
 										</Button>
 										<div className='flex justify-center mt-4'>
 											<span
