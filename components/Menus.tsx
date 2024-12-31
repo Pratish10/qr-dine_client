@@ -32,7 +32,7 @@ export const Menus = (): JSX.Element => {
 	const [showScrollTopButton, setShowScrollTopButton] = useState(false);
 	const resId = useRecoilValue(restaurantId);
 
-	const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage } = useGetMenus(resId ?? 'cm2dlk2jj0000c3qr6z3fwihs', filterOpt as object);
+	const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage } = useGetMenus(resId ?? '', filterOpt as object);
 
 	const onScroll = useCallback(() => {
 		if (typeof window !== 'undefined' && typeof document !== 'undefined') {
