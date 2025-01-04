@@ -67,7 +67,7 @@ export function OrderReceipt({ order }: { order: Order }): JSX.Element {
 					<Separator className='bg-green-200 dark:bg-green-700' />
 					<div className='flex justify-between font-bold text-lg text-green-700 dark:text-green-300'>
 						<span>Total:</span>
-						<span>${totalAmount / 100}</span>
+						<span>₹{totalAmount / 100}</span>
 					</div>
 					<div className='flex justify-between text-sm text-green-600 dark:text-green-400'>
 						<span>Payment Status:</span>
