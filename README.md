@@ -25,9 +25,6 @@ to wait for a server.
 - **Admin Application**: The client application requires the admin application to be running locally, as it pulls data from the admin's backend (such
   as menus, tables, and orders).
 
-> [!NOTE]  
-> This project uses [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable) only as a package manager.
-
 1. Clone the repository:
 
 ```bash
