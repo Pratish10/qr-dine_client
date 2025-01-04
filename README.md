@@ -65,3 +65,18 @@ different port).
 ```bash
 yarn dev
 ```
+
+## Stripe Payment Test Card Numbers
+Use the following test card numbers to simulate payments in Stripe during development. These card numbers are for **test mode only** and will not result in real charges.
+
+## Test Card Numbers
+| **Card Number**        | **Card Type**     | **Description**                        |
+|------------------------|-------------------|----------------------------------------|
+| 4000 0035 6000 0008    | Visa              | Successful payment                     |
+
+## Expiry and CVV
+- **Expiry Date**: Use any future date  
+- **CVV**: Use any 3-digit number
+
+## Important Notes
+- These card numbers only work in Stripe's **test mode**. 
