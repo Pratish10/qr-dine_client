@@ -60,7 +60,7 @@ export function OrderReceipt({ order }: { order: Order }): JSX.Element {
 								<span>
 									{item.quantity}x {item.menuId}
 								</span>
-								<span>${item.totalPrice / 100}</span>
+								<span>₹{item.totalPrice / 100}</span>
 							</motion.div>
 						))}
 					</div>
